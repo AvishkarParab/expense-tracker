@@ -1,16 +1,22 @@
 from fastapi import FastAPI
 from app.api.v1.router import api_router
+from app.core.config import settings
 
 app = FastAPI(
-    title="Expense Tracker API",
+    title=settings.PROJECT_NAME,
     version="0.1.0",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    docs_url=f"{settings.API_V1_STR}/docs",
 )
 
-# Global health check endpoint
+
 @app.get("/health", tags=["Health"])
 def health_check():
-    return {"status": "healthy", "message": "Expense Tracker API is up and running!"}
+    return {
+        "status": "healthy",
+        "environment": settings.ENVIRONMENT,
+        "message": f"{settings.PROJECT_NAME} is running smoothly!",
+    }
 
 
-# Mount all v1 API routes under /api/v1
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router, prefix=settings.API_V1_STR)
