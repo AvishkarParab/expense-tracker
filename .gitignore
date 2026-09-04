@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+*.env
+!.env.example
+
+# Database volumes and local storage
+*.sqlite3
+pgdata/
+pgdata_dev/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Angular (Pre-configured for Phase 2)
+node_modules/
+dist/
+.angular/
+npm-debug.log*
