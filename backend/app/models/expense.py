@@ -1,8 +1,15 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+import uuid
 from datetime import datetime
 from decimal import Decimal
-from sqlalchemy import DateTime, Numeric, String, Text, func
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import DateTime, Numeric, String, Text, func, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import UUID
 from app.core.database import Base
+
+if TYPE_CHECKING:
+    from app.models.user import User
 
 
 class Expense(Base):
@@ -24,3 +31,8 @@ class Expense(Base):
         onupdate=func.now(),
         nullable=False,
     )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+
+    user: Mapped["User"] = relationship(back_populates="expenses")

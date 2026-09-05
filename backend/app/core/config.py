@@ -25,6 +25,11 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "expense_tracker"
 
+    #JWT AUTH
+    SECRET_KEY: str = "supersecretkey_change_me_in_production"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int =1440 # 1 day
+
     # Dynamic connection string constructor
     @computed_field
     @property

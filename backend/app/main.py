@@ -9,7 +9,6 @@ import app.models  # Ensures all models are registered on Base.metadata
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: create tables if they don't exist
-    Base.metadata.create_all(bind=engine)
     yield
     # Shutdown logic (if needed) goes here
 
