@@ -11,6 +11,7 @@ env/
 
 # Environment Variables & Secrets (CRITICAL)
 .env
+.env.production.local
 *.env
 !.env.example
 
