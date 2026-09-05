@@ -1,3 +1,4 @@
+import uuid
 from datetime import datetime
 from decimal import Decimal
 from pydantic import BaseModel, ConfigDict, Field
@@ -26,8 +27,9 @@ class ExpenseUpdate(BaseModel):
 
 # Properties returned to client (includes DB generated fields)
 class ExpenseResponse(ExpenseBase):
-    id: int
+    model_config = ConfigDict(from_attributes=True)
+
+    id: uuid.UUID
+    user_id: uuid.UUID
     created_at: datetime
     updated_at: datetime
-
-    model_config = ConfigDict(from_attributes=True)

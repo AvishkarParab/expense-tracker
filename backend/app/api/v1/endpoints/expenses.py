@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
+from app.api.deps import get_current_user, get_db, get_valid_user_expense
 from app.models.expense import Expense
-from app.schemas import ExpenseCreate, ExpenseResponse, ExpenseUpdate
+from app.models.user import User
+from app.schemas.expense import ExpenseCreate, ExpenseResponse, ExpenseUpdate
 
 router = APIRouter()
 
@@ -15,12 +18,17 @@ router = APIRouter()
     status_code=status.HTTP_201_CREATED,
     summary="Create an expense",
 )
-def create_expense(payload: ExpenseCreate, db: Session = Depends(get_db)):
-    expense = Expense(**payload.model_dump())
+def create_expense(
+    payload: ExpenseCreate,
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
+):
+    expense = Expense(**payload.model_dump(), user_id=current_user.id)
     db.add(expense)
     db.commit()
     db.refresh(expense)
     return expense
+
 
 @router.post(
     "/bulk",
@@ -30,20 +38,21 @@ def create_expense(payload: ExpenseCreate, db: Session = Depends(get_db)):
 )
 def create_expenses_bulk(
     payload: list[ExpenseCreate],
-    db: Session = Depends(get_db),
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
 ):
-    # Map incoming schemas to SQLAlchemy model instances
-    expense_models = [Expense(**item.model_dump()) for item in payload]
-    
-    # Bulk insert in a single transaction
+    expense_models = [
+        Expense(**item.model_dump(), user_id=current_user.id)
+        for item in payload
+    ]
     db.add_all(expense_models)
     db.commit()
-    
-    # Refresh instances to populate DB-generated fields (id, timestamps)
+
     for expense in expense_models:
         db.refresh(expense)
-        
+
     return expense_models
+
 
 @router.get(
     "/",
@@ -51,16 +60,18 @@ def create_expenses_bulk(
     summary="List expenses",
 )
 def list_expenses(
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=100),
     category: str | None = Query(None),
-    db: Session = Depends(get_db),
 ):
-    query = select(Expense)
+    query = select(Expense).where(Expense.user_id == current_user.id)
+
     if category:
         query = query.where(Expense.category == category)
+
     query = query.offset(skip).limit(limit).order_by(Expense.id)
-    
     return db.execute(query).scalars().all()
 
 
@@ -69,13 +80,9 @@ def list_expenses(
     response_model=ExpenseResponse,
     summary="Get single expense",
 )
-def get_expense(expense_id: int, db: Session = Depends(get_db)):
-    expense = db.get(Expense, expense_id)
-    if not expense:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Expense with id {expense_id} not found",
-        )
+def get_expense(
+    expense: Annotated[Expense, Depends(get_valid_user_expense)],
+):
     return expense
 
 
@@ -85,17 +92,10 @@ def get_expense(expense_id: int, db: Session = Depends(get_db)):
     summary="Update expense",
 )
 def update_expense(
-    expense_id: int,
     payload: ExpenseUpdate,
-    db: Session = Depends(get_db),
+    expense: Annotated[Expense, Depends(get_valid_user_expense)],
+    db: Annotated[Session, Depends(get_db)],
 ):
-    expense = db.get(Expense, expense_id)
-    if not expense:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Expense with id {expense_id} not found",
-        )
-
     update_data = payload.model_dump(exclude_unset=True)
     for field, value in update_data.items():
         setattr(expense, field, value)
@@ -110,12 +110,9 @@ def update_expense(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete expense",
 )
-def delete_expense(expense_id: int, db: Session = Depends(get_db)):
-    expense = db.get(Expense, expense_id)
-    if not expense:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Expense with id {expense_id} not found",
-        )
+def delete_expense(
+    expense: Annotated[Expense, Depends(get_valid_user_expense)],
+    db: Annotated[Session, Depends(get_db)],
+):
     db.delete(expense)
     db.commit()
