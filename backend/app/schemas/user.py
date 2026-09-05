@@ -3,28 +3,30 @@ from datetime import datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
-class UserCreate(BaseModel):
-    email: EmailStr = Field(
-        ...,
-        max_length=255,
-        description="Valid user email address",
-        examples=["user@example.com"],
-    )
-    password: str = Field(
-        ...,
-        min_length=8,
-        max_length=128,  # Hard limit prevents hash-DoS attacks
-        description="Password must be between 8 and 128 characters",
-    )
+class UserBase(BaseModel):
+    email: EmailStr
 
 
-class UserResponse(BaseModel):
+class UserCreate(UserBase):
+    password: str = Field(..., min_length=8, max_length=128)
+
+
+class UserProfileUpdate(BaseModel):
+    full_name: str | None = Field(None, min_length=1, max_length=255, examples=["Alex Morgan"])
+    age: int | None = Field(None, ge=1, le=130, examples=[28])
+    currency: str | None = Field(None, min_length=3, max_length=3, examples=["INR"])
+
+
+class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: uuid.UUID
-    email: EmailStr
     is_active: bool
+    full_name: str | None
+    age: int | None
+    currency: str
     created_at: datetime
+    updated_at: datetime
 
 
 class Token(BaseModel):

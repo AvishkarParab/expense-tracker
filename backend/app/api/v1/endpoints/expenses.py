@@ -71,7 +71,7 @@ def list_expenses(
     if category:
         query = query.where(Expense.category == category)
 
-    query = query.offset(skip).limit(limit).order_by(Expense.id)
+    query = query.offset(skip).limit(limit).order_by(Expense.created_at.desc())
     return db.execute(query).scalars().all()
 
 

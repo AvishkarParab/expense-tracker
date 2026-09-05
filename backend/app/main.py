@@ -4,7 +4,7 @@ from app.api.v1.router import api_router
 from app.core.config import settings
 from app.core.database import Base, engine
 import app.models  # Ensures all models are registered on Base.metadata
-
+from app.core.exceptions import register_exception_handlers
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,6 +20,8 @@ app = FastAPI(
     docs_url=f"{settings.API_V1_STR}/docs",
     lifespan=lifespan,
 )
+
+register_exception_handlers(app)
 
 
 @app.get("/health", tags=["Health"])

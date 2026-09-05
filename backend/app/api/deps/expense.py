@@ -1,5 +1,5 @@
+import uuid
 from typing import Annotated
-
 from fastapi import Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -11,7 +11,7 @@ from app.models.user import User
 
 
 def get_valid_user_expense(
-    expense_id: int,
+    expense_id: uuid.UUID,
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> Expense:
