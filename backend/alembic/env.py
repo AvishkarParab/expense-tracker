@@ -14,7 +14,7 @@ config = context.config
 # 3. Import your configuration and Base metadata
 from app.core.config import settings
 from app.core.database import Base
-#define models here to register in alembic
+# Define models here to register in alembic
 import app.models.expense
 import app.models.user
 
@@ -25,9 +25,31 @@ if config.config_file_name is not None:
 # 4. Target metadata for autogenerate
 target_metadata = Base.metadata
 
+
+def get_database_url() -> str:
+    """
+    Determines the database URL with the following precedence:
+    1. Alembic CLI argument: -x url=<URL>
+    2. Shell environment variable: DATABASE_URL
+    3. Application settings: settings.SQLALCHEMY_DATABASE_URI
+    """
+    # 1. Check -x url=... argument
+    x_args = context.get_x_argument(as_dictionary=True)
+    if "url" in x_args:
+        return x_args["url"]
+
+    # 2. Check environment variable override
+    env_url = os.getenv("DATABASE_URL")
+    if env_url:
+        return env_url
+
+    # 3. Fallback to settings from local .env
+    return str(settings.SQLALCHEMY_DATABASE_URI)
+
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode."""
-    url = str(settings.SQLALCHEMY_DATABASE_URI)
+    url = get_database_url()
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -38,10 +60,11 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
+
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
     configuration = config.get_section(config.config_ini_section, {})
-    configuration["sqlalchemy.url"] = str(settings.SQLALCHEMY_DATABASE_URI)
+    configuration["sqlalchemy.url"] = get_database_url()
 
     connectable = engine_from_config(
         configuration,
@@ -58,6 +81,7 @@ def run_migrations_online() -> None:
 
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()
