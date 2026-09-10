@@ -1,28 +1,41 @@
-The following is a summary of the earlier part of this conversation. Continue
-naturally from this context as if you remember the full conversation. Never
-reference this summary directly, never say "according to the summary" or
-"as mentioned in the summary". Simply use this information naturally.
+# Project Overview & Architecture Status
 
-1. **User Intent**: The user is building a production-ready Expense Tracker backend using FastAPI and PostgreSQL, preparing to deploy the application and database to Render while adhering to strict security and pre-flight testing standards.
+**1\. System Summary**Production-ready Expense Tracker backend built with FastAPI, PostgreSQL, and Alembic, containerized via multi-stage Docker builds and hosted on Render.
 
-2. **Key Information & Architecture**:
-   - **Stack**: FastAPI, SQLAlchemy 2.0, PostgreSQL, Alembic migrations.
-   - **Configuration (`config.py`)**: Powered by `pydantic-settings`. Features a production validator that halts startup if `ENVIRONMENT=production` and `SECRET_KEY` is under 32 characters, contains "insecure", or uses insecure database passwords (`"change_me_in_prod"`, `"password"`).
-   - **CORS Handling**: `ALLOWED_ORIGINS` accepts either JSON arrays (`["http://localhost:3000"]`) or comma-separated strings.
-   - **Security**: Swagger (`/docs`) and ReDoc (`/redoc`) automatically return 404 when `ENVIRONMENT=production`.
-   - **Deployment Target**: Render (Managed PostgreSQL + Web Service running the Dockerfile).
+- **Live Base URL:** \[https://expense-tracker-api-1bok.onrender.com\](https://expense-tracker-api-1bok.onrender.com)
+- **API Prefix:** /api/v1
+- **Architecture:** Decoupled FastAPI REST API communicating over an internal network with a managed PostgreSQL instance.
+- **Security & Production Guardrails:**
+  - Interactive API documentation (/docs, /redoc) is locked down (returns 404) in production.
+  - Secret key validation enforced via Pydantic settings in production mode.
+  - Multi-stage Docker container runs under a non-root user (appuser).
+  - Concurrency optimized to 2 Uvicorn workers to prevent memory exhaustion on free-tier limits.
 
-3. **Current Progress & State**:
-   - **Endpoints Implemented**:
-     - User Auth: `POST /api/v1/auth/register`, `POST /api/v1/auth/login` (JWT Bearer).
-     - User Profile: `GET /api/v1/users/profile`, `PATCH /api/v1/users/profile` (`full_name`, `age`, `currency` defaulting to "USD").
-     - Expenses: Full CRUD (`/api/v1/expenses/`) using UUID primary keys and foreign keys.
-     - Health Check: `GET /api/v1/health` (executes `SELECT 1` on the database).
-   - **Automated Testing**: 8 `pytest` test cases passing cleanly against an isolated in-memory SQLite fixture with static pooling.
-   - **Containerization**: Multi-stage production `Dockerfile` runs as non-root `appuser` with 4 Uvicorn workers.
-   - **Pre-Flight Automation**: `verify-prod-backend.bat` script is fully working and verified locally (compiles bytecode, runs `pytest`, checks settings guardrails, builds Docker image, and executes containerized smoke tests for health checks and doc lockdown).
+**2\. Infrastructure & Hosting Details\*\***ComponentPlatformConfiguration / NotesBackend API**Render Web ServiceRuntime: Docker (backend/Dockerfile), Region: Singapore**Database**Render PostgreSQLManaged PostgreSQL instance, Region: Singapore**Internal DB Connection**Private NetworkUsed by Render Web Service: postgresql://dbuser:...@dpg-...:5432/expensedb_dqx7**External DB Connection**SSL EnabledUsed for local migrations: postgresql://dbuser:...@dpg-...-a.singapore-postgres.render.com/expensedb_dqx7?sslmode=require**3\. Database Migration Workflow\*\*backend/alembic/env.py supports dynamic URL overrides via -x url=....
 
-4. **Active Next Steps**:
-   - Provision a managed PostgreSQL instance on Render.
-   - Run Alembic migrations against the Render database from the local terminal using the external connection string.
-   - Deploy the backend container to Render as a Web Service and configure production environment variables.
+- **Local Development:** Runs against local Docker PostgreSQL (localhost:5433) using .env values.
+- alembic revision --autogenerate -m "migration_name"
+- alembic -x url="postgresql://dbuser:4EvNbhgFVfGGLbZdwKbfRDQTSUAiOuJn@dpg-dagj07gu01pc7383o4c0-a.singapore-postgres.render.com/expensedb_dqx7?sslmode=require" upgrade head
+
+**4\. Verification & Quality Gates**Run these checks before committing backend changes or pushing to main:
+
+- pytest
+- verify-prod-backend.batValidates Docker container construction, environment variable parsing, non-root user privileges, and health check endpoints under production constraints.
+
+**5\. Live API Endpoints Reference**
+
+- GET /docs -> 404 Not Found (Swagger lockdown active)
+- GET /api/v1/health -> 200 OK ({"status": "healthy", "database": "connected"})
+- POST /api/v1/auth/register -> 201 Created
+- POST /api/v1/auth/login -> 200 OK (Returns JWT access_token)
+- GET /api/v1/expenses/ -> 200 OK (Protected: requires Bearer )
+- POST /api/v1/expenses/ -> 201 Created (Protected: requires Bearer )
+
+**6\. Next Phase: Angular Frontend Roadmap**
+
+- Scaffold the Angular application inside the repository workspace.
+- Configure environment configurations (src/environments/environment.ts pointing to \[https://expense-tracker-api-1bok.onrender.com/api/v1\](https://expense-tracker-api-1bok.onrender.com/api/v1)).
+- Implement an HTTP Interceptor for automatic JWT Bearer token injection.
+- Construct authentication services (Login, Registration, Token storage).
+- Build modern responsive dashboard views: expense overview, category filtering, and item entry.
+- Add http://localhost:4200 to ALLOWED_ORIGINS in Render environment settings to allow local frontend development without CORS issues.
