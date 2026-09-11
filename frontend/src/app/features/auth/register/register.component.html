@@ -1,21 +1,38 @@
 <section class="page-shell">
+  <app-form-errors [serverError]="errorMessage()" />
+
   <div class="surface-card">
     <h1>Create account</h1>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <label for="email">Email</label>
-      <input class="form-control" id="email" type="email" formControlName="email" placeholder="you@example.com" />
-
-      <label for="password">Password</label>
-      <input
-        class="form-control"
-        id="password"
-        type="password"
-        formControlName="password"
-        placeholder="At least 8 characters"
+    <form [formRoot]="registerForm">
+      <app-input-text
+        [id]="'email'"
+        [name]="'email'"
+        [label]="'Email'"
+        [type]="'email'"
+        [autocomplete]="'email'"
+        [placeholder]="'you@example.com'"
+        [field]="registerForm.email"
       />
 
-      <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+      <app-input-text
+        [id]="'password'"
+        [name]="'password'"
+        [label]="'Password'"
+        [type]="'password'"
+        [autocomplete]="'new-password'"
+        [placeholder]="'At least 8 characters'"
+        [field]="registerForm.password"
+      />
+
+      <button class="btn btn-primary button-shine-hover" type="submit" [disabled]="registerForm().invalid() || isSubmitting()">
+        @if (isSubmitting()) {
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          Creating account...
+        } @else {
+          Register
+        }
+      </button>
     </form>
 
     <p class="auth-toggle">
@@ -23,12 +40,8 @@
       <a routerLink="/login">Login</a>
     </p>
 
-    @if (errorMessage) {
-      <p class="error-message">{{ errorMessage }}</p>
-    }
-
-    @if (successMessage) {
-      <p class="success-message">{{ successMessage }}</p>
+    @if (successMessage(); as message) {
+      <p class="success-message">{{ message }}</p>
     }
   </div>
 </section>

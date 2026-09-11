@@ -1,45 +1,48 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, computed, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { FormRoot, form } from '@angular/forms/signals';
 import { Router, RouterLink } from '@angular/router';
-
-import { AUTH_MESSAGES } from '@core/_utilities/constants';
-import { TokenStorageService } from '@core/services/token-storage.service';
+import { AUTH_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
+import { LoaderService, TokenStorageService } from '@core/services';
+import { FormErrorsComponent, InputTextComponent } from '@core/ui';
 import { LoginService } from './login.service';
+import { loginFormInitialState, loginFormSchema, LoginFormModel } from './_models';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [FormErrorsComponent, FormRoot, InputTextComponent, RouterLink],
   templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private readonly fb = inject(FormBuilder);
   private readonly loginService = inject(LoginService);
   private readonly tokenStorage = inject(TokenStorageService);
+  private readonly loaderService = inject(LoaderService);
   private readonly router = inject(Router);
 
-  protected readonly loginForm = this.fb.nonNullable.group({
-    username: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+  protected readonly loginModel = signal<LoginFormModel>(loginFormInitialState);
+  protected readonly loginForm = form(this.loginModel, loginFormSchema, {
+    submission: {
+      action: () => this.submitLogin(),
+    },
   });
 
-  protected errorMessage: string | null = null;
+  protected readonly errorMessage = signal<string | null>(null);
+  protected readonly isSubmitting = computed(() => this.loaderService.isLoading('login-submit'));
 
-  protected onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
+  private async submitLogin(): Promise<void> {
+    this.errorMessage.set(null);
+
+    const result = await firstValueFrom(this.loginService.login(this.loginModel()));
+
+    if (result.kind === RESULT_KINDS.ERROR) {
+      this.errorMessage.set(
+        result.error.details ?? AUTH_MESSAGES.LOGIN_FAILED,
+      );
       return;
     }
 
-    this.errorMessage = null;
-
-    this.loginService.login(this.loginForm.getRawValue()).subscribe({
-      next: ({ access_token }) => {
-        this.tokenStorage.setToken(access_token);
-        this.router.navigate(['/expenses']);
-      },
-      error: (error) => {
-        this.errorMessage = error?.error?.detail ?? AUTH_MESSAGES.LOGIN_FAILED;
-      },
-    });
+    this.tokenStorage.setToken(result.data.access_token);
+    void this.router.navigate(['/expenses']);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, inject, output, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { ThemeService } from '@core/services/theme.service';
+import { ThemeService } from '@core/services';
 
 @Component({
   selector: 'app-sidebar',

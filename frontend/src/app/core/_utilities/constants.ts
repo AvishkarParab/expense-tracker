@@ -18,6 +18,11 @@ export const HTTP_CONTENT_TYPES = {
   FORM_URLENCODED: 'application/x-www-form-urlencoded',
 } as const;
 
+export const RESULT_KINDS = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+} as const;
+
 export const AUTH_MESSAGES = {
   LOGIN_FAILED: 'Login failed. Please try again.',
   REGISTRATION_FAILED: 'Registration failed. Please try again.',

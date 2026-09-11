@@ -4,11 +4,13 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { defer, finalize, Observable } from 'rxjs';
 
 import { environment } from '@env/environment';
 import { HTTP_CONTENT_TYPES } from '@core/_utilities/constants';
+import { RequestConfiguration } from '@core/models';
 import { TokenStorageService } from './token-storage.service';
+import { LoaderService } from './loader.service';
 
 type QueryParams = Record<string, string | number | boolean>;
 
@@ -18,24 +20,34 @@ type QueryParams = Record<string, string | number | boolean>;
 export class ApiService {
   private readonly http = inject(HttpClient);
   private readonly tokenStorage = inject(TokenStorageService);
+  private readonly loaderService = inject(LoaderService);
   private readonly baseUrl = environment.apiUrl;
 
-  get<T>(path: string, params?: QueryParams): Observable<T> {
-    return this.http.get<T>(this.url(path), {
+  get<T>(
+    path: string,
+    params?: QueryParams,
+    configuration?: RequestConfiguration,
+  ): Observable<T> {
+    return this.withLoader(this.http.get<T>(this.url(path), {
       headers: this.headers(),
       params: this.queryParams(params),
-    });
+    }), configuration);
   }
 
-  post<TResponse, TBody>(path: string, body: TBody): Observable<TResponse> {
-    return this.http.post<TResponse>(this.url(path), body, {
+  post<TResponse, TBody>(
+    path: string,
+    body: TBody,
+    configuration?: RequestConfiguration,
+  ): Observable<TResponse> {
+    return this.withLoader(this.http.post<TResponse>(this.url(path), body, {
       headers: this.headers(),
-    });
+    }), configuration);
   }
 
   postForm<TResponse>(
     path: string,
     body: Record<string, string>,
+    configuration?: RequestConfiguration,
   ): Observable<TResponse> {
     const formBody = new URLSearchParams();
 
@@ -43,20 +55,43 @@ export class ApiService {
       formBody.set(key, value);
     });
 
-    return this.http.post<TResponse>(this.url(path), formBody.toString(), {
+    return this.withLoader(this.http.post<TResponse>(this.url(path), formBody.toString(), {
       headers: this.headers(HTTP_CONTENT_TYPES.FORM_URLENCODED),
-    });
+    }), configuration);
   }
 
-  patch<TResponse, TBody>(path: string, body: TBody): Observable<TResponse> {
-    return this.http.patch<TResponse>(this.url(path), body, {
+  patch<TResponse, TBody>(
+    path: string,
+    body: TBody,
+    configuration?: RequestConfiguration,
+  ): Observable<TResponse> {
+    return this.withLoader(this.http.patch<TResponse>(this.url(path), body, {
       headers: this.headers(),
-    });
+    }), configuration);
   }
 
-  delete<TResponse>(path: string): Observable<TResponse> {
-    return this.http.delete<TResponse>(this.url(path), {
+  delete<TResponse>(
+    path: string,
+    configuration?: RequestConfiguration,
+  ): Observable<TResponse> {
+    return this.withLoader(this.http.delete<TResponse>(this.url(path), {
       headers: this.headers(),
+    }), configuration);
+  }
+
+  private withLoader<T>(
+    request$: Observable<T>,
+    configuration?: RequestConfiguration,
+  ): Observable<T> {
+    const sender = configuration?.showLoader === true
+      ? configuration.sender
+      : undefined;
+
+    return defer(() => {
+      this.loaderService.start(sender);
+      return request$.pipe(
+        finalize(() => this.loaderService.stop(sender)),
+      );
     });
   }
 

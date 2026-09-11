@@ -34,6 +34,9 @@ and verification commands.
 - Keep the roadmap updated when an implementation materially changes its
   architecture, infrastructure, endpoint reference, quality gates, or roadmap
   status.
+- Work directly on the `main` branch for this project. Keep changes
+  uncommitted unless the user explicitly requests a commit, and never push
+  without explicit approval.
 
 ## Reporting
 
@@ -50,3 +53,8 @@ ambiguities, failed checks, and any follow-up required.
 - Preserve existing layout dimensions and alignment when refining styles.
   Limit visual cleanup to tokens, surfaces, typography, states, and responsive
   presentation unless a layout change is explicitly requested.
+- Use consistent, noticeable motion timing for animations and hover
+  transitions. Prefer smooth ease-out curves and avoid abrupt or jittery
+  effects; use 500ms as the standard duration unless a longer one-pass
+  sweep is intentional; respect `prefers-reduced-motion` for non-essential
+  animations.

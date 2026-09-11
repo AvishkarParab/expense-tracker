@@ -3,12 +3,12 @@ import { Router, RouterOutlet } from '@angular/router';
 
 import { AppHeaderComponent } from '@core/layout/app-header.component';
 import { AppSidebarComponent } from '@core/layout/app-sidebar.component';
-import { ThemeService } from '@core/services/theme.service';
-import { TokenStorageService } from '@core/services/token-storage.service';
+import { ThemeService, TokenStorageService } from '@core/services';
+import { PageLoaderComponent } from '@core/ui';
 
 @Component({
   selector: 'app-root',
-  imports: [AppHeaderComponent, AppSidebarComponent, RouterOutlet],
+  imports: [AppHeaderComponent, AppSidebarComponent, PageLoaderComponent, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

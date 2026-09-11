@@ -54,14 +54,43 @@ Run these checks before committing changes or pushing to main:
   - Leveraging Angular 22 production-ready Signal APIs and stable Signal Forms.
   - Default `OnPush` change detection natively utilized for optimal DOM rendering performance.
 - **Responsive Styling:**
-  - `src/styles.scss` is the SCSS composition entry point and uses `@use` to load style modules.
+  - `src/styles.scss` is the single SCSS entry point and loads the global `base` module.
+  - `src/styles/_base.scss` owns the internal SCSS composition and imports themes,
+    buttons, and layout styles.
+  - `src/styles/_layout.scss` composes shell, header/sidebar navigation, and form modules.
   - Theme tokens are defined in `src/styles/_themes.scss` through CSS custom properties.
   - Global resets and reusable defaults belong in `src/styles/_base.scss`.
-  - Responsive application-shell rules belong in `src/styles/_layout.scss`.
+  - Responsive application-shell rules belong in `src/styles/_shell.scss`.
+  - Header, sidebar, form/card, and button styles remain in their dedicated modules.
   - Components consume theme variables instead of hardcoding light/dark colors.
   - The application shell uses a minimal header and flexible content region; redundant sidebars and duplicate navigation should be avoided.
   - Layouts must support both mobile and laptop widths using responsive CSS grid/flex rules without wasting viewport space.
   - Authentication pages use a centered card layout; authenticated pages use a compact responsive sidebar workspace.
+
+**Completed Frontend Foundations**
+- Reusable Signal Forms `InputTextComponent` with bracket-bound inputs,
+  `[formField]` integration, and field-level validation messages.
+- Reusable server-error `FormErrorsComponent` for API submission messages,
+  including accessible alert markup and smooth, reduced-motion-aware entrance
+  animation.
+- Login and registration forms use standalone Signal Forms with extracted
+  feature models, initial state, schemas, and barrel exports.
+- Generic `ResultKind` response formatting and `toResultKind$()` operator
+  centralize successful/error API handling.
+- `ApiService` supports optional request configuration with page-level loading
+  by default and sender-specific loading through `LoaderService`.
+- Reusable page loader, sender-specific submit loading, and auth button states
+  are implemented through the core UI/services barrels.
+- Core UI, services, models, operators, and feature model barrels are in place.
+- Authentication pages use shared theme tokens, centered cards, responsive
+  spacing, animated card entry, and opt-in button shine hover styling.
+- SCSS is modularized into theme, base, buttons, layout, shell, forms, header,
+  sidebar, and navigation composition modules.
+- Standard motion timing is 500ms for normal transitions and entrance
+  animations; longer timings are reserved for intentional one-pass effects,
+  and non-essential motion respects `prefers-reduced-motion`.
+- Frontend changes are developed directly on `main` and remain uncommitted
+  unless a commit is explicitly requested.
 
 **6. Live API Endpoints Reference**
 - `GET /docs` -> 404 Not Found (Swagger lockdown active)
@@ -76,6 +105,6 @@ Run these checks before committing changes or pushing to main:
 - [x] Establish strict domain models, DTOs, and form interfaces with barrel exports and path aliases.
 - [ ] Configure environment variables (`src/environments/environment.ts` pointing to `https://expense-tracker-api-1bok.onrender.com/api/v1`).
 - [ ] Implement `AuthService` and functional HTTP Interceptor for automatic JWT Bearer token injection.
-- [ ] Build Signal-based login and registration forms.
+- [x] Build Signal-based login and registration forms.
 - [ ] Construct responsive dashboard views (expense overview, category filtering, and item entry).
 - [ ] Add `http://localhost:4200` to `ALLOWED_ORIGINS` in Render backend environment settings to allow local frontend development without CORS issues.

@@ -1,0 +1,131 @@
+.app-sidebar {
+  width: 16rem;
+  flex: 0 0 16rem;
+  height: 100dvh;
+  min-height: 0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  transition:
+    width 500ms ease,
+    flex-basis 500ms ease;
+}
+
+.sidebar-collapsed .app-sidebar {
+  width: 4.5rem;
+  flex-basis: 4.5rem;
+}
+
+.app-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.brand-mark {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+}
+
+.sidebar-toggle:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.app-navigation {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.app-navigation-link,
+.sidebar-action {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: transparent;
+  color: var(--color-text-muted);
+  text-align: left;
+  text-decoration: none;
+}
+
+.sidebar-action svg {
+  display: block;
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.navigation-icon {
+  display: inline-grid;
+  width: 1.25rem;
+  flex: 0 0 1.25rem;
+  place-items: center;
+  font-weight: 700;
+}
+
+.sidebar-collapsed .app-sidebar-brand,
+.sidebar-collapsed .app-navigation-link,
+.sidebar-collapsed .sidebar-action {
+  justify-content: center;
+}
+
+.app-navigation-link:hover,
+.app-navigation-link.active,
+.sidebar-action:hover {
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+}
+
+.app-sidebar-footer {
+  display: grid;
+  gap: 0.25rem;
+  margin-top: auto;
+}
+
+.sidebar-action-muted {
+  color: var(--color-danger);
+}
+
+@media (max-width: 30rem) {
+  .app-sidebar-brand {
+    margin-bottom: 0.25rem;
+  }
+
+  .app-navigation {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .app-sidebar-footer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .sidebar-toggle {
+    display: none;
+  }
+}

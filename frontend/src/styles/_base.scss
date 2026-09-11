@@ -1,3 +1,7 @@
+@use "./themes";
+@use "./buttons";
+@use "./layout";
+
 *,
 *::before,
 *::after {
@@ -17,8 +21,8 @@ body {
   color: var(--color-text);
   font-family: "Mona Sans Variable", ui-sans-serif, system-ui, sans-serif;
   transition:
-    background-color 180ms ease,
-    color 180ms ease;
+    background-color 500ms ease,
+    color 500ms ease;
 }
 
 app-root {

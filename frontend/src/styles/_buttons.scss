@@ -1,0 +1,110 @@
+.surface-card form button {
+  margin-top: 0.8rem;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 0.55rem;
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  font-weight: 700;
+}
+
+.surface-card form button:disabled {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.button-shine-hover {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    background-color 500ms ease,
+    box-shadow 500ms ease,
+    transform 500ms ease;
+}
+
+.button-shine-hover::before {
+  position: absolute;
+  z-index: -1;
+  inset: -0.35rem;
+  border-radius: inherit;
+  background: var(--color-primary);
+  content: "";
+  opacity: 0;
+  filter: blur(0.85rem);
+  transition: opacity 500ms ease;
+}
+
+.button-shine-hover::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgb(255 255 255 / 12%) 36%,
+    rgb(255 255 255 / 38%) 50%,
+    rgb(255 255 255 / 12%) 64%,
+    transparent 76%
+  );
+  content: "";
+  opacity: 0;
+  transform: translateX(-135%);
+}
+
+.button-shine-hover:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 94%, black);
+  box-shadow:
+    0 0.65rem 1.35rem rgb(35 76 106 / 20%),
+    0 0 1.25rem rgb(216 179 106 / 14%);
+  transform: translateY(-2px);
+}
+
+.button-shine-hover:hover:not(:disabled)::before {
+  opacity: 0.42;
+}
+
+.button-shine-hover:hover:not(:disabled)::after {
+  animation: button-shine-pass 1500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.button-shine-hover:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 55%, white);
+  outline-offset: 3px;
+}
+
+@keyframes button-shine-pass {
+  0% {
+    opacity: 0;
+    transform: translateX(-135%);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  78% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(135%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button-shine-hover {
+    transition: none;
+  }
+
+  .button-shine-hover::before {
+    transition: none;
+  }
+
+  .button-shine-hover:hover:not(:disabled) {
+    transform: none;
+  }
+}
