@@ -1,0 +1,73 @@
+:host {
+  display: block;
+}
+
+.site-header {
+  align-items: center;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  height: 76px;
+  justify-content: space-between;
+  padding: 0 clamp(1.25rem, 5vw, 5rem);
+}
+
+.brand {
+  align-items: center;
+  color: var(--color-ink);
+  display: inline-flex;
+  gap: 0.7rem;
+  text-decoration: none;
+}
+
+.brand-mark {
+  align-items: end;
+  background: var(--color-primary-soft);
+  border-radius: 0.75rem;
+  display: inline-flex;
+  gap: 0.2rem;
+  height: 2.35rem;
+  justify-content: center;
+  padding: 0.55rem;
+  width: 2.35rem;
+}
+
+.brand-mark span {
+  background: var(--color-primary);
+  border-radius: 0.15rem;
+  display: block;
+  height: 0.65rem;
+  width: 0.27rem;
+}
+
+.brand-mark span:nth-child(2) {
+  height: 1rem;
+}
+
+.brand-mark span:nth-child(3) {
+  background: var(--color-primary-strong);
+  height: 1.3rem;
+}
+
+.brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.brand-name span {
+  color: var(--color-primary);
+}
+
+.header-note {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .header-note {
+    display: none;
+  }
+}

@@ -40,3 +40,13 @@ and verification commands.
 For completed work, provide a concise step-by-step summary of what was
 inspected, changed, and verified. Explicitly call out assumptions, unresolved
 ambiguities, failed checks, and any follow-up required.
+
+## Learnings
+
+- Frontend visual work should use shared CSS custom properties from
+  `frontend/src/styles.scss` for colors, typography, borders, and shadows;
+  component SCSS should consume those tokens rather than introducing isolated
+  theme values.
+- Preserve existing layout dimensions and alignment when refining styles.
+  Limit visual cleanup to tokens, surfaces, typography, states, and responsive
+  presentation unless a layout change is explicitly requested.
