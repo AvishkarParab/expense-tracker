@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+} from '@angular/core';
+import { NgClass } from '@angular/common';
 import { Field, FormField, ValidationError } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-text',
-  imports: [FormField],
+  standalone: true,
+  imports: [FormField, NgClass],
   templateUrl: './input-text.component.html',
   styleUrl: './input-text.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +22,7 @@ export class InputTextComponent {
   readonly type = input<'text' | 'email' | 'password'>('text');
   readonly placeholder = input<string>('');
   readonly autocomplete = input<string>('');
+  readonly iconClass = input<string>('');
 
   protected get validationMessage(): string | null {
     const field = this.field();

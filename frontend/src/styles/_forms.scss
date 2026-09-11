@@ -37,21 +37,6 @@
   font-weight: 600;
 }
 
-.surface-card input {
-  width: 100%;
-  min-height: 3.25rem;
-  padding: 0.8rem 0.9rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.55rem;
-  background: var(--color-surface);
-  color: var(--color-text);
-}
-
-.surface-card input:focus {
-  outline: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
-  border-color: var(--color-primary);
-}
-
 .auth-toggle {
   margin: 1.25rem 0 0;
   color: var(--color-text-muted);
@@ -71,4 +56,18 @@
 
 .success-message {
   color: var(--color-primary);
+}
+
+@media (max-width: 30rem) {
+  .page-shell {
+    width: min(100%, 24rem);
+  }
+
+  .surface-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .surface-card form {
+    gap: 0.75rem;
+  }
 }

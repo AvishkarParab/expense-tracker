@@ -15,22 +15,72 @@ label {
   font-weight: 600;
 }
 
-input {
+.input-control {
+  display: flex;
+  align-items: center;
   width: 100%;
   min-height: 3.25rem;
-  padding: 0.8rem 0.9rem;
   border: 1px solid var(--color-border);
   border-radius: 0.55rem;
   background: var(--color-surface);
   color: var(--color-text);
+  transition:
+    border-color 500ms ease,
+    box-shadow 500ms ease;
 }
 
-input:focus {
+.input-control:focus-within {
   outline: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
   border-color: var(--color-primary);
 }
 
+.input-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  margin-left: 0.9rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.input-icon::before {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  background-color: currentColor;
+  content: "";
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.input-icon.bi-person::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5 6.5a4.5 4.5 0 0 0-9 0h9Z'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5 6.5a4.5 4.5 0 0 0-9 0h9Z'/%3E%3C/svg%3E");
+}
+
+.input-icon.bi-lock::before {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6V4a4 4 0 0 1 8 0v2h1.5v9h-11V6H4Zm1.5 0h5V4a2.5 2.5 0 0 0-5 0v2Z'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6V4a4 4 0 0 1 8 0v2h1.5v9h-11V6H4Zm1.5 0h5V4a2.5 2.5 0 0 0-5 0v2Z'/%3E%3C/svg%3E");
+}
+
+input {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.8rem 0.9rem;
+  border: 0;
+  outline: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
 input[aria-invalid='true'] {
+  border-color: transparent;
+}
+
+.input-control:has(input[aria-invalid='true']) {
   border-color: var(--color-danger);
 }
 

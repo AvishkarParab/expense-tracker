@@ -3,15 +3,26 @@
     <label [for]="id()">{{ label() }}</label>
   }
 
-  <input
-    [id]="id()"
-    [type]="type()"
-    [placeholder]="placeholder()"
-    [autocomplete]="autocomplete()"
-    [formField]="field()"
-    [attr.aria-invalid]="validationMessage ? 'true' : null"
-    [attr.aria-describedby]="validationMessage ? id() + '-error' : null"
-  />
+  <div class="input-control">
+    @if (iconClass(); as icon) {
+      <span
+        class="input-icon"
+        [ngClass]="icon"
+        aria-hidden="true"
+      ></span>
+    }
+
+    <input
+      [id]="id()"
+      [type]="type()"
+      [placeholder]="placeholder()"
+      [autocomplete]="autocomplete()"
+      [formField]="field()"
+      [attr.aria-label]="label() || name()"
+      [attr.aria-invalid]="validationMessage ? 'true' : null"
+      [attr.aria-describedby]="validationMessage ? id() + '-error' : null"
+    />
+  </div>
 
   @if (validationMessage; as message) {
     <p class="validation-message" [id]="id() + '-error'">{{ message }}</p>
