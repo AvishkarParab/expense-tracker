@@ -1,0 +1,36 @@
+<header class="app-header sticky-top">
+  <div
+    class="container-fluid d-flex align-items-center justify-content-between gap-3 px-3 px-lg-5 py-2"
+  >
+    <!-- Brand -->
+    <a
+      class="app-brand d-inline-flex align-items-center gap-2 text-decoration-none"
+      routerLink="/login"
+    >
+      <img class="app-brand-mark" src="expense-tracker-logo.svg" alt="Expense Tracker Logo" />
+      <span class="app-brand-text">Expense Tracker</span>
+    </a>
+
+    <!-- Theme Toggle -->
+    <button
+      type="button"
+      class="theme-button flex-shrink-0"
+      (click)="themeService.toggleTheme()"
+      [attr.aria-label]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
+      [attr.title]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
+    >
+      @if (themeService.theme() === 'dark') {
+        <svg class="theme-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42"
+          ></path>
+        </svg>
+      } @else {
+        <svg class="theme-icon" viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.7 6.7 0 0 0 21 12.8Z"></path>
+        </svg>
+      }
+    </button>
+  </div>
+</header>

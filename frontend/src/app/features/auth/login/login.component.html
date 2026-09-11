@@ -1,0 +1,30 @@
+<section class="page-shell">
+  <div class="surface-card">
+    <h1>Welcome back</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label for="username">Email</label>
+      <input class="form-control" id="username" type="email" formControlName="username" placeholder="you@example.com" />
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        class="form-control"
+        formControlName="password"
+        placeholder="Enter your password"
+      />
+
+      <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+
+    <p class="auth-toggle">
+      Need an account?
+      <a routerLink="/register">Create one</a>
+    </p>
+
+    @if (errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+    }
+  </div>
+</section>

@@ -1,1 +1,21 @@
-<router-outlet />
+@if (tokenStorage.isAuthenticated()) {
+  <div class="app-shell d-flex min-vh-100" [class.sidebar-collapsed]="isSidebarCollapsed()">
+    <app-sidebar
+      [collapsed]="isSidebarCollapsed()"
+      (collapseSidebar)="toggleSidebar()"
+      (logout)="logout()"
+    />
+
+    <main class="app-content flex-grow-1 min-w-0 overflow-auto">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <div class="app-shell app-shell-public d-flex min-vh-100 flex-column">
+    <app-header />
+
+    <main class="app-content flex-grow-1 d-flex align-items-center justify-content-center overflow-auto">
+      <router-outlet />
+    </main>
+  </div>
+}

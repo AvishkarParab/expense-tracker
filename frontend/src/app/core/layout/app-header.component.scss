@@ -1,0 +1,70 @@
+/* --- 1. Header Container (Strict Height) --- */
+.app-header {
+  width: 100%;
+  height: 64px; /* Force a strict height so it doesn't balloon */
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  z-index: 1030;
+}
+
+/* --- 2. Force Perfect Flex Alignment --- */
+.app-header .container-fluid {
+  display: flex !important;
+  align-items: center !important; /* Forces vertical centering */
+  justify-content: space-between !important; /* Pushes left and right */
+  height: 100% !important; /* Makes the flex container fill the 64px header */
+  margin: 0;
+}
+
+/* --- 3. Brand Identity --- */
+.app-brand {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important; /* Prevent margins from pushing it up/down */
+}
+
+.app-brand-mark {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+.app-brand-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-left: 8px;
+}
+
+/* --- 4. Theme Toggle Button --- */
+.theme-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  margin: 0 !important; /* Prevent margins from pushing it up/down */
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background-color: transparent;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-button:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.theme-icon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -1,0 +1,64 @@
+<aside class="app-sidebar d-flex min-vh-100 flex-column gap-4 p-3">
+  <div class="app-sidebar-brand d-flex align-items-center gap-3">
+    <img class="brand-mark" src="expense-tracker-logo.svg" alt="" />
+    @if (!collapsed()) {
+      <span>Expense Tracker</span>
+    }
+  </div>
+
+  <button
+    type="button"
+    class="sidebar-toggle btn btn-outline-secondary w-100"
+    (click)="collapseSidebar.emit()"
+    [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+    [attr.aria-expanded]="!collapsed()"
+  >
+    @if (collapsed()) {
+      <span aria-hidden="true">→</span>
+    } @else {
+      <span aria-hidden="true">←</span>
+      <span>Collapse</span>
+    }
+  </button>
+
+  <nav class="app-navigation nav flex-column gap-1" aria-label="Main navigation">
+    <a class="app-navigation-link nav-link d-flex align-items-center gap-3" routerLink="/expenses">
+      <span class="navigation-icon" aria-hidden="true">⌂</span>
+      @if (!collapsed()) {
+        <span>Overview</span>
+      }
+    </a>
+    <a class="app-navigation-link nav-link d-flex align-items-center gap-3" routerLink="/expenses">
+      <span class="navigation-icon" aria-hidden="true">$</span>
+      @if (!collapsed()) {
+        <span>Expenses</span>
+      }
+    </a>
+  </nav>
+
+  <div class="app-sidebar-footer d-flex flex-column gap-1 mt-auto">
+    <button
+      type="button"
+      class="sidebar-action btn btn-link d-flex align-items-center gap-3"
+      (click)="themeService.toggleTheme()"
+      [attr.aria-label]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
+    >
+      <span class="navigation-icon" aria-hidden="true">
+        {{ themeService.theme() === 'dark' ? '☀' : '☾' }}
+      </span>
+      @if (!collapsed()) {
+        <span>Theme</span>
+      }
+    </button>
+    <button
+      type="button"
+      class="sidebar-action sidebar-action-muted btn btn-link d-flex align-items-center gap-3"
+      (click)="logout.emit()"
+    >
+      <span class="navigation-icon" aria-hidden="true">↪</span>
+      @if (!collapsed()) {
+        <span>Sign out</span>
+      }
+    </button>
+  </div>
+</aside>

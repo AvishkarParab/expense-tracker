@@ -17,6 +17,7 @@
     "module": "preserve",
     "paths": {
       "@core/*": ["./src/app/core/*"],
+      "@models/*": ["./src/app/core/models/*"],
       "@ui/*": ["./src/app/libs/ui/*"],
       "@features/*": ["./src/app/features/*"],
       "@shared/*": ["./src/app/shared/*"],

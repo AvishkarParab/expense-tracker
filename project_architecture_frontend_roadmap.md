@@ -43,9 +43,25 @@ Run these checks before committing changes or pushing to main:
   - `core/models/_dtos/`: Strict API request/response contracts (decoupled from domain logic).
   - `core/models/_forms/`: Signal Form interfaces for UI components.
   - Barrel exports (`index.ts`) maintained across all directories for clean path-aliased imports (`@core`, etc.).
+- **API Request Standard:**
+  - `core/services/api.service.ts` is the single generic HTTP request layer.
+  - Feature services own feature-specific API operations and live beside their feature components.
+  - Feature services delegate request construction to `ApiService`; components handle returned data, loading state, and errors.
+  - Shared API paths, storage keys, content types, and reusable messages are defined as uppercase constants in `core/_utilities/constants.ts`.
+  - New endpoints must be added to the relevant object in `API_ENDPOINTS` rather than hardcoded inside feature services or components.
+  - Shared infrastructure uses path aliases such as `@core`, `@models`, `@features`, and `@env`; relative imports are reserved for files in the same feature or directory.
 - **Reactive Performance:**
   - Leveraging Angular 22 production-ready Signal APIs and stable Signal Forms.
   - Default `OnPush` change detection natively utilized for optimal DOM rendering performance.
+- **Responsive Styling:**
+  - `src/styles.scss` is the SCSS composition entry point and uses `@use` to load style modules.
+  - Theme tokens are defined in `src/styles/_themes.scss` through CSS custom properties.
+  - Global resets and reusable defaults belong in `src/styles/_base.scss`.
+  - Responsive application-shell rules belong in `src/styles/_layout.scss`.
+  - Components consume theme variables instead of hardcoding light/dark colors.
+  - The application shell uses a minimal header and flexible content region; redundant sidebars and duplicate navigation should be avoided.
+  - Layouts must support both mobile and laptop widths using responsive CSS grid/flex rules without wasting viewport space.
+  - Authentication pages use a centered card layout; authenticated pages use a compact responsive sidebar workspace.
 
 **6. Live API Endpoints Reference**
 - `GET /docs` -> 404 Not Found (Swagger lockdown active)

@@ -1,1 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@fontsource-variable/mona-sans";
+@use "./styles/themes";
+@use "./styles/base";
+@use "./styles/layout";
