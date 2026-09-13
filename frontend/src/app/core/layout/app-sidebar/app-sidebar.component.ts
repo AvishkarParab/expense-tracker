@@ -1,6 +1,5 @@
 import { Component, inject, output, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-
 import { ThemeService } from '@core/services';
 
 @Component({

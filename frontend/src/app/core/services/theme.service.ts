@@ -1,6 +1,5 @@
 import { DOCUMENT } from '@angular/common';
 import { Injectable, inject, signal } from '@angular/core';
-
 import { STORAGE_KEYS } from '@core/_utilities/constants';
 
 export type Theme = 'light' | 'dark';
@@ -35,15 +34,10 @@ export class ThemeService {
       return storedTheme;
     }
 
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
   private applyTheme(theme: Theme): void {
-    this.document.documentElement.classList.toggle(
-      'theme-dark',
-      theme === 'dark',
-    );
+    this.document.documentElement.classList.toggle('theme-dark', theme === 'dark');
   }
 }
