@@ -1,54 +1,63 @@
-<section class="page-shell">
-  <app-form-errors [serverError]="errorMessage()" />
+<section class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card auth-card w-100 w-lg-50 mx-auto">
+    <div class="card-body">
+      <h1>Login</h1>
 
-  <div class="surface-card">
-    <form [formRoot]="loginForm">
-      <div class="mb-3">
-        <app-input-text
-          [id]="'username'"
-          [name]="'username'"
-          [label]="'Email'"
-          [type]="'email'"
-          [floatingLabel]="true"
-          [size]="'lg'"
-          [iconClass]="'bi bi-person-fill'"
-          [autocomplete]="'email'"
-          [placeholder]="'you@example.com'"
-          [field]="loginForm.username"
-        />
-      </div>
-      <div class="mb-3">
-        <app-input-text
-          [id]="'password'"
-          [name]="'password'"
-          [label]="'Password'"
-          [type]="'password'"
-          [floatingLabel]="true"
-          [size]="'lg'"
-          [iconClass]="'bi bi-lock-fill'"
-          [autocomplete]="'current-password'"
-          [placeholder]="'Enter your password'"
-          [field]="loginForm.password"
-        />
-      </div>
+      @if (errorMessage()) {
+        <div class="mb-4">
+          <app-form-errors [serverError]="errorMessage()" />
+        </div>
+      }
 
-      <button
-        class="btn btn-primary button-shine-hover"
-        type="submit"
-        [disabled]="loginForm().invalid() || isSubmitting()"
-      >
-        @if (isSubmitting()) {
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          Signing in...
-        } @else {
-          Login
-        }
-      </button>
-    </form>
+      <form [formRoot]="loginForm">
+        <div class="mb-3">
+          <app-input-text
+            [id]="'username'"
+            [name]="'username'"
+            [label]="'Email'"
+            [type]="'email'"
+            [floatingLabel]="true"
+            [size]="'lg'"
+            [iconClass]="'bi bi-person-fill'"
+            [autocomplete]="'email'"
+            [placeholder]="'you@example.com'"
+            [field]="loginForm.username"
+          />
+        </div>
 
-    <p class="auth-toggle">
-      Need an account?
-      <a routerLink="/register">Create one</a>
-    </p>
+        <div class="mb-3">
+          <app-input-text
+            [id]="'password'"
+            [name]="'password'"
+            [label]="'Password'"
+            [type]="'password'"
+            [floatingLabel]="true"
+            [size]="'lg'"
+            [iconClass]="'bi bi-lock-fill'"
+            [autocomplete]="'current-password'"
+            [placeholder]="'Enter your password'"
+            [field]="loginForm.password"
+          />
+        </div>
+
+        <button
+          class="btn btn-primary button-shine-hover w-100"
+          type="submit"
+          [disabled]="loginForm().invalid() || isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            Signing in...
+          } @else {
+            Login
+          }
+        </button>
+      </form>
+
+      <p class="auth-toggle text-center mt-3 mb-0">
+        Need an account?
+        <a routerLink="/register">Create one</a>
+      </p>
+    </div>
   </div>
 </section>

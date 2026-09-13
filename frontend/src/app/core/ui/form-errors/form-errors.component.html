@@ -1,5 +1,5 @@
 @if (serverError(); as message) {
-  <div class="form-errors" role="alert" aria-live="polite">
-    <p>{{ message }}</p>
+  <div class="alert alert-danger form-errors" role="alert" aria-live="polite">
+    <p class="mb-0">{{ message }}</p>
   </div>
 }

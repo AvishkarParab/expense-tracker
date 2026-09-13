@@ -1,20 +1,10 @@
 .form-errors {
-  margin-bottom: 1rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--color-danger);
-  border-radius: 0.5rem;
-  background: color-mix(in srgb, var(--color-danger) 8%, transparent);
-  color: var(--color-danger);
+  --bs-alert-color: var(--color-danger);
+  --bs-alert-bg: color-mix(in srgb, var(--color-danger) 8%, transparent);
+  --bs-alert-border-color: var(--color-danger);
+
   font-size: 0.875rem;
   animation: form-error-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.form-errors p {
-  margin: 0;
-}
-
-.form-errors p + p {
-  margin-top: 0.25rem;
 }
 
 @keyframes form-error-enter {

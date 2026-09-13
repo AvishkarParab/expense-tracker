@@ -30,22 +30,16 @@
 }
 
 .sidebar-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  min-height: 2.5rem;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.6rem;
-  background: var(--color-surface);
-  color: var(--color-text-muted);
-}
+  --bs-btn-color: var(--color-text-muted);
+  --bs-btn-border-color: var(--color-border);
+  --bs-btn-hover-color: var(--color-primary);
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: var(--color-primary);
+  --bs-btn-padding-y: 0.6rem;
+  --bs-btn-padding-x: 0.75rem;
+  --bs-btn-border-radius: 0.6rem;
 
-.sidebar-toggle:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+  min-height: 2.5rem;
 }
 
 .app-navigation {
@@ -55,17 +49,12 @@
 
 .app-navigation-link,
 .sidebar-action {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 0;
   border-radius: 0.6rem;
   background: transparent;
   color: var(--color-text-muted);
-  text-align: left;
-  text-decoration: none;
 }
 
 .sidebar-action svg {

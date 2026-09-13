@@ -8,7 +8,7 @@
 
   <button
     type="button"
-    class="sidebar-toggle btn btn-outline-secondary w-100"
+    class="sidebar-toggle btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
     (click)="collapseSidebar.emit()"
     [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
     [attr.aria-expanded]="!collapsed()"

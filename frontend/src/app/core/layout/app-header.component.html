@@ -14,7 +14,7 @@
     <!-- Theme Toggle -->
     <button
       type="button"
-      class="theme-button flex-shrink-0"
+      class="theme-button btn btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
       (click)="themeService.toggleTheme()"
       [attr.aria-label]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
       [attr.title]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"

@@ -1,53 +1,63 @@
-<section class="page-shell">
-  <app-form-errors [serverError]="errorMessage()" />
+<section class="page-shell d-flex justify-content-center align-items-center vh-100">
+  <div class="card auth-card w-100 w-lg-50 mx-auto">
+    <div class="card-body">
+      <h1>Create account</h1>
 
-  <div class="surface-card">
-    <h1>Create account</h1>
+      @if (errorMessage()) {
+        <div class="mb-4">
+          <app-form-errors [serverError]="errorMessage()" />
+        </div>
+      }
 
-    <form [formRoot]="registerForm">
-      <app-input-text
-        [id]="'email'"
-        [name]="'email'"
-        [label]="'Email'"
-        [type]="'email'"
-        [floatingLabel]="true"
-        [size]="'lg'"
-        [iconClass]="'bi bi-person'"
-        [autocomplete]="'email'"
-        [placeholder]="'you@example.com'"
-        [field]="registerForm.email"
-      />
+      <form [formRoot]="registerForm">
+        <app-input-text
+          [id]="'email'"
+          [name]="'email'"
+          [label]="'Email'"
+          [type]="'email'"
+          [floatingLabel]="true"
+          [size]="'lg'"
+          [iconClass]="'bi bi-person-fill'"
+          [autocomplete]="'email'"
+          [placeholder]="'you@example.com'"
+          [field]="registerForm.email"
+        />
 
-      <app-input-text
-        [id]="'password'"
-        [name]="'password'"
-        [label]="'Password'"
-        [type]="'password'"
-        [floatingLabel]="true"
-        [size]="'lg'"
-        [iconClass]="'bi bi-lock'"
-        [autocomplete]="'new-password'"
-        [placeholder]="'At least 8 characters'"
-        [field]="registerForm.password"
-      />
+        <app-input-text
+          [id]="'password'"
+          [name]="'password'"
+          [label]="'Password'"
+          [type]="'password'"
+          [floatingLabel]="true"
+          [size]="'lg'"
+          [iconClass]="'bi bi-lock-fill'"
+          [autocomplete]="'new-password'"
+          [placeholder]="'At least 8 characters'"
+          [field]="registerForm.password"
+        />
 
-      <button class="btn btn-primary button-shine-hover" type="submit" [disabled]="registerForm().invalid() || isSubmitting()">
-        @if (isSubmitting()) {
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          Creating account...
-        } @else {
-          Register
-        }
-      </button>
-    </form>
+        <button
+          class="btn btn-primary button-shine-hover"
+          type="submit"
+          [disabled]="registerForm().invalid() || isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            Creating account...
+          } @else {
+            Register
+          }
+        </button>
+      </form>
 
-    <p class="auth-toggle">
-      Already have an account?
-      <a routerLink="/login">Login</a>
-    </p>
+      <p class="auth-toggle">
+        Already have an account?
+        <a routerLink="/login">Login</a>
+      </p>
 
-    @if (successMessage(); as message) {
-      <p class="success-message">{{ message }}</p>
-    }
+      @if (successMessage(); as message) {
+        <p class="success-message">{{ message }}</p>
+      }
+    </div>
   </div>
 </section>

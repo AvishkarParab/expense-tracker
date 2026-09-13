@@ -27,26 +27,18 @@
 }
 
 .theme-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  --bs-btn-color: var(--color-text-muted);
+  --bs-btn-border-color: var(--color-border);
+  --bs-btn-hover-color: var(--color-primary);
+  --bs-btn-hover-bg: transparent;
+  --bs-btn-hover-border-color: var(--color-primary);
+  --bs-btn-active-color: var(--color-primary);
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: var(--color-primary);
+
   width: 2.25rem;
   height: 2.25rem;
   padding: 0;
-  border-radius: 50%;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  color: var(--color-text-muted);
-  cursor: pointer;
-  transition:
-    background-color 500ms ease,
-    border-color 500ms ease,
-    color 500ms ease;
-
-  &:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-  }
 }
 
 .theme-icon {

@@ -4,23 +4,25 @@
   min-width: 0;
 }
 
-.surface-card {
+.auth-card {
+  --bs-card-bg: var(--color-surface);
+  --bs-card-border-color: var(--color-border);
+  --bs-card-border-radius: 1.25rem;
+  --bs-card-box-shadow: var(--shadow-card);
+  --bs-card-spacer-y: clamp(2rem, 4vw, 3rem);
+  --bs-card-spacer-x: clamp(2rem, 4vw, 3rem);
+
   width: 100%;
-  padding: clamp(3rem, 3vw, 3rem);
-  border: 1px solid var(--color-border);
-  border-radius: 1.25rem;
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
 }
 
-.surface-card h1 {
+.auth-card h1 {
   margin: 0 0 1.5rem;
   color: var(--color-text);
   font-size: clamp(1.75rem, 5vw, 2.15rem);
   letter-spacing: -0.03em;
 }
 
-.surface-card form {
+.auth-card form {
   display: grid;
   gap: 0.75rem;
   width: 100%;

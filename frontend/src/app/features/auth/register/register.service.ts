@@ -16,14 +16,16 @@ import { toResultKind$ } from '@core/models/_operators';
 export class RegisterService {
   private readonly apiService = inject(ApiService);
 
-  register(
+  register$(
     payload: RegisterRequestDto,
     configuration?: RequestConfiguration,
   ): Observable<ResultKind<UserResponseDto>> {
-    return this.apiService.post<UserResponseDto, RegisterRequestDto>(
-      API_ENDPOINTS.AUTH.REGISTER,
-      payload,
-      configuration,
-    ).pipe(toResultKind$());
+    return this.apiService
+      .post<UserResponseDto, RegisterRequestDto>(
+        API_ENDPOINTS.AUTH.REGISTER,
+        payload,
+        configuration,
+      )
+      .pipe(toResultKind$());
   }
 }

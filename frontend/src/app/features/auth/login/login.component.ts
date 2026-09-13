@@ -33,12 +33,15 @@ export class LoginComponent {
   private async submitLogin(): Promise<void> {
     this.errorMessage.set(null);
 
-    const result = await firstValueFrom(this.loginService.login(this.loginModel()));
+    const result = await firstValueFrom(
+      this.loginService.login$(this.loginModel(), {
+        showLoader: true,
+        sender: 'login-submit',
+      }),
+    );
 
     if (result.kind === RESULT_KINDS.ERROR) {
-      this.errorMessage.set(
-        result.error.details ?? AUTH_MESSAGES.LOGIN_FAILED,
-      );
+      this.errorMessage.set(result.error.details ?? AUTH_MESSAGES.LOGIN_FAILED);
       return;
     }
 

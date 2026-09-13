@@ -1,9 +1,9 @@
 .auth-card {
   max-width: 30rem;
-  animation: login-card-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: register-card-enter 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes login-card-enter {
+@keyframes register-card-enter {
   from {
     opacity: 0;
     transform: translateY(1rem) scale(0.985);
