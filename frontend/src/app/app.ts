@@ -1,8 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
-import { AppHeaderComponent } from '@core/layout/app-header.component';
-import { AppSidebarComponent } from '@core/layout/app-sidebar.component';
+import { AppHeaderComponent } from '@core/layout/app-header/app-header.component';
+import { AppSidebarComponent } from '@core/layout/app-sidebar/app-sidebar.component';
 import { ThemeService, TokenStorageService } from '@core/services';
 import { PageLoaderComponent } from '@core/ui';
 
