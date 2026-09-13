@@ -6,7 +6,7 @@
 
 .surface-card {
   width: 100%;
-  padding: clamp(2rem, 4vw, 3rem);
+  padding: clamp(3rem, 3vw, 3rem);
   border: 1px solid var(--color-border);
   border-radius: 1.25rem;
   background: var(--color-surface);
@@ -22,19 +22,8 @@
 
 .surface-card form {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.75rem;
   width: 100%;
-}
-
-.surface-card form > * {
-  width: 100%;
-}
-
-.surface-card label {
-  margin-top: 0.4rem;
-  color: var(--color-text);
-  font-size: 0.875rem;
-  font-weight: 600;
 }
 
 .auth-toggle {
@@ -61,13 +50,5 @@
 @media (max-width: 30rem) {
   .page-shell {
     width: min(100%, 24rem);
-  }
-
-  .surface-card {
-    padding: 1.5rem 1.25rem;
-  }
-
-  .surface-card form {
-    gap: 0.75rem;
   }
 }

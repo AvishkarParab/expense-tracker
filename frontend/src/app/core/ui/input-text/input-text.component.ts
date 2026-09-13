@@ -23,6 +23,8 @@ export class InputTextComponent {
   readonly placeholder = input<string>('');
   readonly autocomplete = input<string>('');
   readonly iconClass = input<string>('');
+  readonly floatingLabel = input<boolean>(false);
+  readonly size = input<'sm' | 'md' | 'lg' | 'xl'>('md');
 
   protected get validationMessage(): string | null {
     const field = this.field();

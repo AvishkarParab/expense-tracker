@@ -1,67 +1,57 @@
-/* --- 1. Header Container (Strict Height) --- */
 .app-header {
   width: 100%;
-  height: 64px; /* Force a strict height so it doesn't balloon */
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  height: 4rem;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
   z-index: 1030;
+  transition:
+    background-color 500ms ease,
+    border-color 500ms ease;
 }
 
-/* --- 2. Force Perfect Flex Alignment --- */
-.app-header .container-fluid {
-  display: flex !important;
-  align-items: center !important; /* Forces vertical centering */
-  justify-content: space-between !important; /* Pushes left and right */
-  height: 100% !important; /* Makes the flex container fill the 64px header */
-  margin: 0;
-}
-
-/* --- 3. Brand Identity --- */
 .app-brand {
-  display: flex !important;
-  align-items: center !important;
-  margin: 0 !important; /* Prevent margins from pushing it up/down */
+  color: var(--color-text);
+  font-size: 1.125rem;
+  font-weight: 700;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-primary);
+  }
 }
 
 .app-brand-mark {
-  height: 32px;
+  height: 2rem;
   width: auto;
   object-fit: contain;
 }
 
-.app-brand-text {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-left: 8px;
-}
-
-/* --- 4. Theme Toggle Button --- */
 .theme-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  margin: 0 !important; /* Prevent margins from pushing it up/down */
-  border-radius: 50%;
-  border: 1px solid #cbd5e1;
-  background-color: transparent;
-  color: #475569;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
   cursor: pointer;
-  transition: all 500ms ease;
-}
+  transition:
+    background-color 500ms ease,
+    border-color 500ms ease,
+    color 500ms ease;
 
-.theme-button:hover {
-  background-color: #f8fafc;
-  color: #0f172a;
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
 }
 
 .theme-icon {
-  width: 20px;
-  height: 20px;
+  width: 1.15rem;
+  height: 1.15rem;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;

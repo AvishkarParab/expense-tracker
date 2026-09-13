@@ -1,18 +1,21 @@
-.surface-card form button {
-  margin-top: 0.8rem;
-  min-height: 3.25rem;
-  padding: 0.75rem 1rem;
-  border: 0;
-  border-radius: 0.55rem;
-  background: var(--color-primary);
-  color: var(--color-primary-contrast);
-  font-weight: 700;
-}
+.btn-primary {
+  --bs-btn-bg: var(--color-primary);
+  --bs-btn-border-color: var(--color-primary);
+  --bs-btn-hover-bg: color-mix(in srgb, var(--color-primary) 90%, black);
+  --bs-btn-hover-border-color: color-mix(in srgb, var(--color-primary) 90%, black);
+  --bs-btn-active-bg: color-mix(in srgb, var(--color-primary) 80%, black);
+  --bs-btn-active-border-color: color-mix(in srgb, var(--color-primary) 80%, black);
+  --bs-btn-disabled-bg: var(--color-border);
+  --bs-btn-disabled-border-color: var(--color-border);
+  --bs-btn-disabled-color: var(--color-text-muted);
+  --bs-btn-color: var(--color-primary-contrast);
+  --bs-btn-hover-color: var(--color-primary-contrast);
+  --bs-btn-active-color: var(--color-primary-contrast);
 
-.surface-card form button:disabled {
-  background: var(--color-border);
-  color: var(--color-text-muted);
-  opacity: 1;
+  min-height: 2.75rem;
+  padding: 0.6rem 1.25rem;
+  font-weight: 600;
+  border-radius: 0.55rem;
 }
 
 .button-shine-hover {
@@ -55,7 +58,6 @@
 }
 
 .button-shine-hover:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--color-primary) 94%, black);
   box-shadow:
     0 0.65rem 1.35rem rgb(35 76 106 / 20%),
     0 0 1.25rem rgb(216 179 106 / 14%);

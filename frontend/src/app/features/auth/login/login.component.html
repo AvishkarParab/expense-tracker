@@ -1,29 +1,36 @@
 <section class="page-shell">
   <app-form-errors [serverError]="errorMessage()" />
 
-  <div class="surface-card my-4">
+  <div class="surface-card">
     <form [formRoot]="loginForm">
-      <app-input-text
-        [id]="'username'"
-        [name]="'username'"
-        [label]="'Email'"
-        [type]="'email'"
-        [iconClass]="'bi bi-person'"
-        [autocomplete]="'email'"
-        [placeholder]="'you@example.com'"
-        [field]="loginForm.username"
-      />
-
-      <app-input-text
-        [id]="'password'"
-        [name]="'password'"
-        [label]="'Password'"
-        [type]="'password'"
-        [iconClass]="'bi bi-lock'"
-        [autocomplete]="'current-password'"
-        [placeholder]="'Enter your password'"
-        [field]="loginForm.password"
-      />
+      <div class="mb-3">
+        <app-input-text
+          [id]="'username'"
+          [name]="'username'"
+          [label]="'Email'"
+          [type]="'email'"
+          [floatingLabel]="true"
+          [size]="'lg'"
+          [iconClass]="'bi bi-person-fill'"
+          [autocomplete]="'email'"
+          [placeholder]="'you@example.com'"
+          [field]="loginForm.username"
+        />
+      </div>
+      <div class="mb-3">
+        <app-input-text
+          [id]="'password'"
+          [name]="'password'"
+          [label]="'Password'"
+          [type]="'password'"
+          [floatingLabel]="true"
+          [size]="'lg'"
+          [iconClass]="'bi bi-lock-fill'"
+          [autocomplete]="'current-password'"
+          [placeholder]="'Enter your password'"
+          [field]="loginForm.password"
+        />
+      </div>
 
       <button
         class="btn btn-primary button-shine-hover"

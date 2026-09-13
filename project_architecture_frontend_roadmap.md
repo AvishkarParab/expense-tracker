@@ -69,7 +69,7 @@ Run these checks before committing changes or pushing to main:
 
 **Completed Frontend Foundations**
 - Reusable Signal Forms `InputTextComponent` with bracket-bound inputs,
-  `[formField]` integration, and field-level validation messages.
+  `[formField]` integration, field-level validation messages, and opt-in floating animated labels (`[floatingLabel]="true"`).
 - Reusable server-error `FormErrorsComponent` for API submission messages,
   including accessible alert markup and smooth, reduced-motion-aware entrance
   animation.

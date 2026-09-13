@@ -7,19 +7,54 @@
   display: grid;
   gap: 0.55rem;
   width: 100%;
+
+  --control-height: 2.75rem;
+  --input-padding: 0.55rem 0.8rem;
+  --font-size: 0.875rem;
+  --icon-size: 0.95rem;
+  --label-left: 0.8rem;
+  --label-icon-left: 2.3rem;
+
+  &.size-sm {
+    --control-height: 2.25rem;
+    --input-padding: 0.35rem 0.65rem;
+    --font-size: 0.8125rem;
+    --icon-size: 0.875rem;
+    --label-left: 0.65rem;
+    --label-icon-left: 2rem;
+  }
+
+  &.size-lg {
+    --control-height: 3.25rem;
+    --input-padding: 0.75rem 0.9rem;
+    --font-size: 0.9375rem;
+    --icon-size: 1.05rem;
+    --label-left: 0.9rem;
+    --label-icon-left: 2.5rem;
+  }
+
+  &.size-xl {
+    --control-height: 3.75rem;
+    --input-padding: 0.95rem 1rem;
+    --font-size: 1rem;
+    --icon-size: 1.2rem;
+    --label-left: 1rem;
+    --label-icon-left: 2.75rem;
+  }
 }
 
 label {
   color: var(--color-text);
-  font-size: 0.875rem;
+  font-size: var(--font-size);
   font-weight: 600;
 }
 
 .input-control {
+  position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 3.25rem;
+  min-height: var(--control-height);
   border: 1px solid var(--color-border);
   border-radius: 0.55rem;
   background: var(--color-surface);
@@ -35,45 +70,36 @@ label {
 }
 
 .input-icon {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
-  margin-left: 0.9rem;
+  margin-left: var(--label-left);
   color: var(--color-text-muted);
-  font-size: 1rem;
-}
-
-.input-icon::before {
-  display: block;
-  width: 1rem;
-  height: 1rem;
-  background-color: currentColor;
-  content: "";
-  mask-position: center;
-  mask-repeat: no-repeat;
-  mask-size: contain;
-  -webkit-mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-}
-
-.input-icon.bi-person::before {
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5 6.5a4.5 4.5 0 0 0-9 0h9Z'/%3E%3C/svg%3E");
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm4.5 6.5a4.5 4.5 0 0 0-9 0h9Z'/%3E%3C/svg%3E");
-}
-
-.input-icon.bi-lock::before {
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6V4a4 4 0 0 1 8 0v2h1.5v9h-11V6H4Zm1.5 0h5V4a2.5 2.5 0 0 0-5 0v2Z'/%3E%3C/svg%3E");
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 6V4a4 4 0 0 1 8 0v2h1.5v9h-11V6H4Zm1.5 0h5V4a2.5 2.5 0 0 0-5 0v2Z'/%3E%3C/svg%3E");
+  font-size: var(--icon-size);
+  line-height: 1;
 }
 
 input {
   width: 100%;
-  min-height: 3.25rem;
-  padding: 0.8rem 0.9rem;
+  min-height: var(--control-height);
+  padding: var(--input-padding);
   border: 0;
   outline: 0;
-  background: var(--color-surface);
+  box-sizing: border-box;
+  background: transparent;
   color: var(--color-text);
+  font-size: var(--font-size);
+}
+
+input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.input-control:focus-within input::placeholder {
+  opacity: 0.6;
 }
 
 input[aria-invalid='true'] {
@@ -82,6 +108,52 @@ input[aria-invalid='true'] {
 
 .input-control:has(input[aria-invalid='true']) {
   border-color: var(--color-danger);
+}
+
+.floating-label {
+  position: absolute;
+  top: 40%;
+  left: var(--label-left);
+  transform: translateY(-50%);
+  transform-origin: left center;
+  padding: 0 0.35rem;
+  border-radius: 0.2rem;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size);
+  font-weight: 500;
+  line-height: 1;
+  pointer-events: none;
+  transition:
+    top 500ms ease,
+    transform 500ms ease,
+    color 500ms ease,
+    font-weight 500ms ease,
+    background-color 500ms ease;
+}
+
+.input-control:has(.input-icon) .floating-label {
+  left: var(--label-icon-left);
+}
+
+.input-control:focus-within .floating-label,
+.input-control:has(input:not(:placeholder-shown)) .floating-label {
+  top: -10%;
+  transform: translateY(-50%) scale(0.82);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.input-control:has(input[aria-invalid='true']):focus-within .floating-label,
+.input-control:has(input[aria-invalid='true']):has(input:not(:placeholder-shown)) .floating-label {
+  color: var(--color-danger);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-label,
+  input::placeholder {
+    transition: none;
+  }
 }
 
 .validation-message {
