@@ -39,20 +39,6 @@ app-header {
 }
 
 @media (max-width: 30rem) {
-  .app-sidebar {
-    width: 100%;
-    flex-basis: auto;
-    height: auto;
-    min-height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .sidebar-collapsed .app-sidebar {
-    width: 100%;
-    flex-basis: auto;
-  }
-
   .app-shell {
     display: block !important;
   }

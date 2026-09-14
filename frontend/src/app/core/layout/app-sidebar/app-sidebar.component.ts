@@ -6,7 +6,6 @@ import { ThemeService } from '@core/services';
   selector: 'app-sidebar',
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './app-sidebar.component.html',
-  styleUrl: './app-sidebar.component.scss',
 })
 export class AppSidebarComponent {
   readonly collapsed = input(false);

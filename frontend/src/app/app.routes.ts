@@ -11,5 +11,5 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
   { path: 'expenses', component: ExpensesComponent, canActivate: [authGuard] },
-  { path: '**', redirectTo: '/dashboard' },
+  { path: '**', redirectTo: '/login' },
 ];

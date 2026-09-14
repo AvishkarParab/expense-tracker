@@ -10,7 +10,7 @@
       @if (loading()) {
         <app-skeleton height="1.85rem" width="70%" />
       } @else {
-        <p class="stat-value mb-0">{{ prefix() }}{{ formattedValue }}{{ suffix() }}</p>
+        <p class="stat-value mb-0"><i [class]="preffix()"></i> {{ formattedValue }}</p>
       }
 
       @if (!loading() && trend() !== null) {

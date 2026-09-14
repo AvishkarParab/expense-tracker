@@ -1,53 +1,45 @@
-<aside class="app-sidebar d-flex min-vh-100 flex-column gap-4 p-3">
-  <div class="app-sidebar-brand d-flex align-items-center gap-3">
-    <img class="brand-mark" src="expense-tracker-logo.svg" alt="" />
+<aside class="app-sidebar p-3">
+  <div class="app-sidebar-brand">
     @if (!collapsed()) {
-      <span>Expense Tracker</span>
+      <img class="brand-mark" src="expense-tracker-logo.svg" alt="" />
+      <span class="brand-text ms-2">Expense Tracker</span>
     }
+
+    <button
+      type="button"
+      class="sidebar-toggle"
+      [class.ms-auto]="!collapsed()"
+      (click)="collapseSidebar.emit()"
+      [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+      [attr.aria-expanded]="!collapsed()"
+    >
+      @if (collapsed()) {
+        <i class="bi bi-list"></i>
+      } @else {
+        <i class="bi bi-x-lg"></i>
+      }
+    </button>
   </div>
 
-  <button
-    type="button"
-    class="sidebar-toggle btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2"
-    (click)="collapseSidebar.emit()"
-    [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
-    [attr.aria-expanded]="!collapsed()"
-  >
-    @if (collapsed()) {
-      <span aria-hidden="true">→</span>
-    } @else {
-      <span aria-hidden="true">←</span>
-      <span>Collapse</span>
-    }
-  </button>
-
-  <nav class="app-navigation nav flex-column gap-1" aria-label="Main navigation">
-    <a
-      class="app-navigation-link nav-link d-flex align-items-center gap-3"
-      routerLink="/dashboard"
-      routerLinkActive="active"
-    >
+  <nav class="app-navigation" aria-label="Main navigation">
+    <a class="app-navigation-link" routerLink="/dashboard" routerLinkActive="active">
       <i class="navigation-icon bi bi-speedometer2" aria-hidden="true"></i>
       @if (!collapsed()) {
-        <span>Overview</span>
+        <span class="nav-text">Overview</span>
       }
     </a>
-    <a
-      class="app-navigation-link nav-link d-flex align-items-center gap-3"
-      routerLink="/expenses"
-      routerLinkActive="active"
-    >
+    <a class="app-navigation-link" routerLink="/expenses" routerLinkActive="active">
       <i class="navigation-icon bi bi-wallet2" aria-hidden="true"></i>
       @if (!collapsed()) {
-        <span>Expenses</span>
+        <span class="nav-text">Expenses</span>
       }
     </a>
   </nav>
 
-  <div class="app-sidebar-footer d-flex flex-column gap-1 mt-auto">
+  <div class="app-sidebar-footer mt-auto">
     <button
       type="button"
-      class="sidebar-action btn btn-link d-flex align-items-center gap-3"
+      class="sidebar-action"
       (click)="themeService.toggleTheme()"
       [attr.aria-label]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
     >
@@ -58,17 +50,14 @@
         aria-hidden="true"
       ></i>
       @if (!collapsed()) {
-        <span>Theme</span>
+        <span class="nav-text">Theme</span>
       }
     </button>
-    <button
-      type="button"
-      class="sidebar-action sidebar-action-muted btn btn-link d-flex align-items-center gap-3"
-      (click)="logout.emit()"
-    >
+
+    <button type="button" class="sidebar-action sidebar-action-muted" (click)="logout.emit()">
       <i class="navigation-icon bi bi-box-arrow-right" aria-hidden="true"></i>
       @if (!collapsed()) {
-        <span>Sign out</span>
+        <span class="nav-text">Sign out</span>
       }
     </button>
   </div>

@@ -26,7 +26,7 @@
       <app-stat-card
         icon="bi-wallet2"
         label="Total Spent"
-        prefix="$"
+        [preffix]="'bi bi-currency-rupee'"
         [value]="insights()?.total_amount ?? 0"
         [loading]="isLoading()"
       />
@@ -35,7 +35,7 @@
       <app-stat-card
         icon="bi-calendar3"
         label="This Month"
-        prefix="$"
+        [preffix]="'bi bi-currency-rupee'"
         [value]="insights()?.current_month_amount ?? 0"
         [trend]="insights()?.month_over_month_change ?? null"
         [loading]="isLoading()"
@@ -45,7 +45,7 @@
       <app-stat-card
         icon="bi-bar-chart-line"
         label="Average / Expense"
-        prefix="$"
+        [preffix]="'bi bi-currency-rupee'"
         [value]="insights()?.average_expense ?? 0"
         [loading]="isLoading()"
       />
@@ -81,7 +81,11 @@
                 <div class="category-row">
                   <div class="d-flex align-items-center justify-content-between mb-1">
                     <span class="category-label">
-                      <i class="bi" [ngClass]="getCategoryIcon(category.category)" aria-hidden="true"></i>
+                      <i
+                        class="bi"
+                        [ngClass]="getCategoryIcon(category.category)"
+                        aria-hidden="true"
+                      ></i>
                       {{ category.category }}
                     </span>
                     <span class="category-amount">{{ category.amount | currency }}</span>

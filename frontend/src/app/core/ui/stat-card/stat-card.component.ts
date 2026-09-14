@@ -4,6 +4,7 @@ import {
   effect,
   input,
   signal,
+  untracked,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { SkeletonComponent } from '@core/ui/skeleton';
@@ -17,11 +18,10 @@ import { SkeletonComponent } from '@core/ui/skeleton';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatCardComponent {
-  readonly icon = input<string>('bi-graph-up');
   readonly label = input.required<string>();
-  readonly value = input<number | null>(null);
-  readonly prefix = input<string>('');
-  readonly suffix = input<string>('');
+  readonly icon = input<string>('bi-graph-up');
+  readonly preffix = input<string>('');
+  readonly value = input<number>(0);
   readonly decimals = input<number>(2);
   readonly trend = input<number | null>(null);
   readonly loading = input<boolean>(false);
@@ -30,19 +30,25 @@ export class StatCardComponent {
 
   constructor() {
     effect(() => {
-      const target = this.value();
-      if (target === null || this.loading()) {
+      const rawValue = this.value();
+
+      if (rawValue === null || this.loading()) {
         return;
       }
+
+      const target = Number(rawValue) || 0;
+      const currentDisplay = untracked(() => this.displayValue());
+
+      if (target === currentDisplay) {
+        return;
+      }
+
       this.animateTo(target);
     });
   }
 
   protected get formattedValue(): string {
-    return this.displayValue().toLocaleString(undefined, {
-      minimumFractionDigits: this.decimals(),
-      maximumFractionDigits: this.decimals(),
-    });
+    return this.displayValue().toFixed(this.decimals());
   }
 
   private animateTo(target: number): void {
