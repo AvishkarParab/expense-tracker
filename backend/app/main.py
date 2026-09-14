@@ -25,6 +25,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+print("DEBUG ORIGINS: ", [str(origin).rstrip("/") for origin in settings.ALLOWED_ORIGINS])
+
 # Apply CORS Middleware
 if settings.ALLOWED_ORIGINS:
     app.add_middleware(

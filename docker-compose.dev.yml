@@ -21,5 +21,20 @@ services:
       timeout: 5s
       retries: 5
 
+  # Add your backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: expense_tracker_api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-expense_tracker}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   pgdata_dev:

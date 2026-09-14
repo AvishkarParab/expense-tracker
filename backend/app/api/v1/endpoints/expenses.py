@@ -1,13 +1,19 @@
+from datetime import date, timedelta
+from decimal import Decimal
 from typing import Annotated
-
 from fastapi import APIRouter, Depends, Query, status
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
-
 from app.api.deps import get_current_user, get_db, get_valid_user_expense
 from app.models.expense import Expense
 from app.models.user import User
-from app.schemas.expense import ExpenseCreate, ExpenseResponse, ExpenseUpdate
+from app.schemas.expense import (
+    CategoryInsight,
+    ExpenseCreate,
+    ExpenseInsights,
+    ExpenseResponse,
+    ExpenseUpdate,
+)
 
 router = APIRouter()
 
@@ -73,6 +79,84 @@ def list_expenses(
 
     query = query.offset(skip).limit(limit).order_by(Expense.created_at.desc())
     return db.execute(query).scalars().all()
+
+
+@router.get(
+    "/insights",
+    response_model=ExpenseInsights,
+    summary="Get expense insights and category breakdown",
+)
+def get_expense_insights(
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User, Depends(get_current_user)],
+):
+    today = date.today()
+    start_of_month = today.replace(day=1)
+    end_of_previous_month = start_of_month - timedelta(days=1)
+    start_of_previous_month = end_of_previous_month.replace(day=1)
+
+    zero = Decimal("0")
+
+    def amount_and_count(*filters):
+        row = db.execute(
+            select(
+                func.coalesce(func.sum(Expense.amount), zero),
+                func.count(Expense.id),
+            ).where(Expense.user_id == current_user.id, *filters)
+        ).one()
+        return row[0], row[1]
+
+    total_amount, total_count = amount_and_count()
+    current_month_amount, current_month_count = amount_and_count(
+        Expense.expense_date >= start_of_month
+    )
+    previous_month_amount, _ = amount_and_count(
+        Expense.expense_date >= start_of_previous_month,
+        Expense.expense_date <= end_of_previous_month,
+    )
+
+    category_rows = db.execute(
+        select(
+            Expense.category,
+            func.coalesce(func.sum(Expense.amount), zero),
+            func.count(Expense.id),
+        )
+        .where(Expense.user_id == current_user.id)
+        .group_by(Expense.category)
+        .order_by(func.sum(Expense.amount).desc())
+    ).all()
+
+    category_breakdown = [
+        CategoryInsight(
+            category=category,
+            amount=amount,
+            count=count,
+            percentage=float(amount / total_amount * 100) if total_amount else 0.0,
+        )
+        for category, amount, count in category_rows
+    ]
+
+    average_expense = round((total_amount / total_count), 2) if total_count else zero
+
+    if previous_month_amount:
+        month_over_month_change = float(
+            (current_month_amount - previous_month_amount) / previous_month_amount * 100
+        )
+    elif current_month_amount:
+        month_over_month_change = 100.0
+    else:
+        month_over_month_change = 0.0
+
+    return ExpenseInsights(
+        total_amount=total_amount,
+        total_count=total_count,
+        current_month_amount=current_month_amount,
+        current_month_count=current_month_count,
+        previous_month_amount=previous_month_amount,
+        month_over_month_change=month_over_month_change,
+        average_expense=average_expense,
+        category_breakdown=category_breakdown,
+    )
 
 
 @router.get(
