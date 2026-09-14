@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  overflow: hidden;
+  background: linear-gradient(
+    100deg,
+    var(--color-surface-muted) 30%,
+    color-mix(in srgb, var(--color-surface-muted) 50%, var(--color-surface)) 50%,
+    var(--color-surface-muted) 70%
+  );
+  background-size: 200% 100%;
+  animation: app-skeleton-shimmer 1400ms ease-in-out infinite;
+}
+
+@keyframes app-skeleton-shimmer {
+  0% {
+    background-position: 150% 0;
+  }
+
+  100% {
+    background-position: -50% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}

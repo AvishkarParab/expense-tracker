@@ -22,14 +22,22 @@
   </button>
 
   <nav class="app-navigation nav flex-column gap-1" aria-label="Main navigation">
-    <a class="app-navigation-link nav-link d-flex align-items-center gap-3" routerLink="/expenses">
-      <span class="navigation-icon" aria-hidden="true">⌂</span>
+    <a
+      class="app-navigation-link nav-link d-flex align-items-center gap-3"
+      routerLink="/dashboard"
+      routerLinkActive="active"
+    >
+      <i class="navigation-icon bi bi-speedometer2" aria-hidden="true"></i>
       @if (!collapsed()) {
         <span>Overview</span>
       }
     </a>
-    <a class="app-navigation-link nav-link d-flex align-items-center gap-3" routerLink="/expenses">
-      <span class="navigation-icon" aria-hidden="true">$</span>
+    <a
+      class="app-navigation-link nav-link d-flex align-items-center gap-3"
+      routerLink="/expenses"
+      routerLinkActive="active"
+    >
+      <i class="navigation-icon bi bi-wallet2" aria-hidden="true"></i>
       @if (!collapsed()) {
         <span>Expenses</span>
       }
@@ -43,9 +51,12 @@
       (click)="themeService.toggleTheme()"
       [attr.aria-label]="themeService.theme() === 'dark' ? 'Use light theme' : 'Use dark theme'"
     >
-      <span class="navigation-icon" aria-hidden="true">
-        {{ themeService.theme() === 'dark' ? '☀' : '☾' }}
-      </span>
+      <i
+        class="navigation-icon bi"
+        [class.bi-sun]="themeService.theme() === 'dark'"
+        [class.bi-moon-stars]="themeService.theme() !== 'dark'"
+        aria-hidden="true"
+      ></i>
       @if (!collapsed()) {
         <span>Theme</span>
       }
@@ -55,7 +66,7 @@
       class="sidebar-action sidebar-action-muted btn btn-link d-flex align-items-center gap-3"
       (click)="logout.emit()"
     >
-      <span class="navigation-icon" aria-hidden="true">↪</span>
+      <i class="navigation-icon bi bi-box-arrow-right" aria-hidden="true"></i>
       @if (!collapsed()) {
         <span>Sign out</span>
       }

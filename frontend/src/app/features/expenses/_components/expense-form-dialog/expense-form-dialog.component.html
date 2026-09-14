@@ -1,0 +1,117 @@
+@if (open()) {
+  <div
+    class="modal-backdrop-custom"
+    role="presentation"
+    (click)="dismiss()"
+    (keydown.escape)="dismiss()"
+  ></div>
+
+  <div
+    class="modal d-block expense-modal"
+    tabindex="-1"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="isEditMode() ? 'Edit expense' : 'Add expense'"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title h5 mb-0">{{ isEditMode() ? 'Edit Expense' : 'Add Expense' }}</h2>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="dismiss()"
+          ></button>
+        </div>
+
+        <div class="modal-body">
+          @if (errorMessage()) {
+            <div class="mb-3">
+              <app-form-errors [serverError]="errorMessage()" />
+            </div>
+          }
+
+          <form [formRoot]="expenseForm" class="d-grid gap-3">
+            <app-input-text
+              [id]="'expense-title'"
+              [name]="'title'"
+              [label]="'Title'"
+              [type]="'text'"
+              [iconClass]="'bi bi-tag'"
+              [placeholder]="'e.g. Groceries'"
+              [field]="expenseForm.title"
+            />
+
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <app-input-text
+                  [id]="'expense-amount'"
+                  [name]="'amount'"
+                  [label]="'Amount'"
+                  [type]="'text'"
+                  [iconClass]="'bi bi-currency-dollar'"
+                  [placeholder]="'0.00'"
+                  [field]="expenseForm.amount"
+                />
+              </div>
+              <div class="col-sm-6">
+                <app-input-text
+                  [id]="'expense-date'"
+                  [name]="'expenseDate'"
+                  [label]="'Date'"
+                  [type]="'date'"
+                  [iconClass]="'bi bi-calendar-event'"
+                  [field]="expenseForm.expenseDate"
+                />
+              </div>
+            </div>
+
+            <div class="expense-field">
+              <label for="expense-category">Category</label>
+              <select
+                id="expense-category"
+                class="form-select"
+                [formField]="expenseForm.category"
+              >
+                <option value="" disabled>Select a category</option>
+                @for (category of categories; track category.value) {
+                  <option [value]="category.value">{{ category.label }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="expense-field">
+              <label for="expense-notes">Notes <span class="text-muted">(optional)</span></label>
+              <textarea
+                id="expense-notes"
+                class="form-control"
+                rows="2"
+                placeholder="Add any extra details..."
+                [formField]="expenseForm.notes"
+              ></textarea>
+            </div>
+
+            <div class="modal-footer border-0 px-0 pb-0">
+              <button type="button" class="btn btn-outline-secondary" (click)="dismiss()">
+                Cancel
+              </button>
+              <button
+                class="btn btn-primary button-shine-hover"
+                type="submit"
+                [disabled]="expenseForm().invalid() || isSubmitting()"
+              >
+                @if (isSubmitting()) {
+                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                  Saving...
+                } @else {
+                  {{ isEditMode() ? 'Save Changes' : 'Add Expense' }}
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+}

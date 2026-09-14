@@ -1,0 +1,50 @@
+<div class="expense-item d-flex align-items-center gap-3">
+  <span class="expense-icon d-inline-flex align-items-center justify-content-center flex-shrink-0">
+    <i class="bi" [ngClass]="categoryIcon" aria-hidden="true"></i>
+  </span>
+
+  <div class="expense-main flex-grow-1 min-w-0">
+    <p class="expense-title mb-0 text-truncate">{{ expense().title }}</p>
+    <p class="expense-meta mb-0 text-truncate">
+      <span class="badge expense-category-badge">{{ expense().category }}</span>
+      <span class="expense-date">{{ expense().expense_date | date: 'mediumDate' }}</span>
+    </p>
+  </div>
+
+  <div class="expense-amount flex-shrink-0 text-end">
+    <p class="mb-0">{{ expense().amount | currency }}</p>
+  </div>
+
+  @if (!viewOnly()) {
+    <div class="expense-actions d-flex align-items-center gap-1 flex-shrink-0">
+      @if (!confirmingDelete()) {
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          (click)="edit.emit(expense())"
+          aria-label="Edit expense"
+        >
+          <i class="bi bi-pencil" aria-hidden="true"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger"
+          (click)="confirmingDelete.set(true)"
+          aria-label="Delete expense"
+        >
+          <i class="bi bi-trash" aria-hidden="true"></i>
+        </button>
+      } @else {
+        <span class="confirm-delete-label">Delete?</span>
+        <button type="button" class="btn btn-sm btn-danger" (click)="confirmDelete()">Yes</button>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-secondary"
+          (click)="confirmingDelete.set(false)"
+        >
+          No
+        </button>
+      }
+    </div>
+  }
+</div>

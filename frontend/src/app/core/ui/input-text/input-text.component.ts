@@ -19,7 +19,7 @@ export class InputTextComponent {
   readonly name = input.required<string>();
   readonly field = input.required<Field<string>>();
   readonly label = input<string>('');
-  readonly type = input<'text' | 'email' | 'password'>('text');
+  readonly type = input<'text' | 'email' | 'password' | 'date'>('text');
   readonly placeholder = input<string>('');
   readonly autocomplete = input<string>('');
   readonly iconClass = input<string>('');

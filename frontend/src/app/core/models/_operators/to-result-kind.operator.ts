@@ -1,27 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  catchError,
-  defer,
-  map,
-  OperatorFunction,
-  of,
-} from 'rxjs';
+import { catchError, map, OperatorFunction, of } from 'rxjs';
 import { RESULT_KINDS } from '@core/_utilities/constants';
 import { ResultError, ResultKind } from '../result.model';
 
 export function toResultKind$<T>(): OperatorFunction<T, ResultKind<T>> {
   return (source) =>
-    defer(() => {
-      return source.pipe(
-        map((data) => ({ kind: RESULT_KINDS.SUCCESS, data }) as const),
-        catchError((error: unknown) =>
-          of({
-            kind: RESULT_KINDS.ERROR,
-            error: toResultError(error),
-          } as const),
-        ),
-      );
-    });
+    source.pipe(
+      map((data) => ({ kind: RESULT_KINDS.SUCCESS, data }) as const),
+      catchError((error: unknown) =>
+        of({
+          kind: RESULT_KINDS.ERROR,
+          error: toResultError(error),
+        } as const),
+      ),
+    );
 }
 
 function toResultError(error: unknown): ResultError {
@@ -47,13 +39,18 @@ function toResultError(error: unknown): ResultError {
 }
 
 function readErrorDetail(payload: unknown): string | undefined {
-  if (
-    typeof payload === 'object' &&
-    payload !== null &&
-    'detail' in payload &&
-    typeof payload.detail === 'string'
-  ) {
-    return payload.detail;
+  if (typeof payload !== 'object' || payload === null || !('detail' in payload)) {
+    return undefined;
+  }
+
+  const detail = (payload as { detail: unknown }).detail;
+
+  if (typeof detail === 'string') {
+    return detail;
+  }
+
+  if (Array.isArray(detail) && detail.length > 0) {
+    return detail.map((err) => err.msg).join(', ');
   }
 
   return undefined;

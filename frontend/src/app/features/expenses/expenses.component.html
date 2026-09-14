@@ -1,0 +1,68 @@
+<section class="expenses-page container-fluid px-0">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <p class="eyebrow mb-1">Manage</p>
+      <h1 class="page-title mb-0">Expenses</h1>
+    </div>
+
+    <button type="button" class="btn btn-primary button-shine-hover d-inline-flex align-items-center gap-2" (click)="openAddDialog()">
+      <i class="bi bi-plus-lg" aria-hidden="true"></i>
+      <span>Add Expense</span>
+    </button>
+  </div>
+
+  <div class="card expenses-card">
+    <div class="card-body">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+        <h2 class="h6 mb-0">All expenses</h2>
+
+        <select
+          class="form-select form-select-sm category-filter"
+          [value]="selectedCategory()"
+          (change)="onCategoryChange($any($event.target).value)"
+        >
+          <option value="">All categories</option>
+          @for (category of categories; track category.value) {
+            <option [value]="category.value">{{ category.label }}</option>
+          }
+        </select>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">
+          <p class="mb-0">{{ errorMessage() }}</p>
+        </div>
+      }
+
+      @if (isLoading() && expenses().length === 0) {
+        <div class="d-grid gap-3">
+          @for (row of [1, 2, 3, 4]; track row) {
+            <app-skeleton height="3.5rem" radius="0.85rem" />
+          }
+        </div>
+      } @else if (expenses().length === 0) {
+        <div class="empty-state text-center py-5">
+          <i class="bi bi-receipt-cutoff" aria-hidden="true"></i>
+          <p class="mb-0 mt-2">No expenses yet. Add your first one to get started.</p>
+        </div>
+      } @else {
+        <div class="expense-list d-grid gap-1">
+          @for (expense of expenses(); track expense.id) {
+            <app-expense-list-item
+              [expense]="expense"
+              (edit)="openEditDialog($event)"
+              (delete)="onDeleteExpense($event)"
+            />
+          }
+        </div>
+      }
+    </div>
+  </div>
+</section>
+
+<app-expense-form-dialog
+  [open]="isDialogOpen()"
+  [expense]="editingExpense()"
+  (closed)="closeDialog()"
+  (saved)="onExpenseSaved()"
+/>

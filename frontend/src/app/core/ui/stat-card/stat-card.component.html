@@ -1,0 +1,32 @@
+<div class="stat-card card h-100">
+  <div class="card-body d-flex align-items-start gap-3">
+    <span class="stat-icon d-inline-flex align-items-center justify-content-center flex-shrink-0">
+      <i class="bi" [ngClass]="icon()" aria-hidden="true"></i>
+    </span>
+
+    <div class="stat-content flex-grow-1 min-w-0">
+      <p class="stat-label mb-1">{{ label() }}</p>
+
+      @if (loading()) {
+        <app-skeleton height="1.85rem" width="70%" />
+      } @else {
+        <p class="stat-value mb-0">{{ prefix() }}{{ formattedValue }}{{ suffix() }}</p>
+      }
+
+      @if (!loading() && trend() !== null) {
+        <p
+          class="stat-trend mb-0"
+          [class.stat-trend-up]="trend()! >= 0"
+          [class.stat-trend-down]="trend()! < 0"
+        >
+          <i
+            class="bi"
+            [ngClass]="trend()! >= 0 ? 'bi-arrow-up-right' : 'bi-arrow-down-right'"
+            aria-hidden="true"
+          ></i>
+          {{ trend()! >= 0 ? '+' : '' }}{{ trend()!.toFixed(1) }}% vs last month
+        </p>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+<section class="dashboard-page container-fluid px-0">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <p class="eyebrow mb-1">Overview</p>
+      <h1 class="page-title mb-0">Your expenses, at a glance.</h1>
+    </div>
+
+    <a
+      class="btn btn-primary button-shine-hover d-inline-flex align-items-center gap-2"
+      routerLink="/expenses"
+      [queryParams]="{ action: 'add' }"
+    >
+      <i class="bi bi-plus-lg" aria-hidden="true"></i>
+      <span>Add Expense</span>
+    </a>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="alert alert-danger mb-4" role="alert">
+      <p class="mb-0">{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card
+        icon="bi-wallet2"
+        label="Total Spent"
+        prefix="$"
+        [value]="insights()?.total_amount ?? 0"
+        [loading]="isLoading()"
+      />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card
+        icon="bi-calendar3"
+        label="This Month"
+        prefix="$"
+        [value]="insights()?.current_month_amount ?? 0"
+        [trend]="insights()?.month_over_month_change ?? null"
+        [loading]="isLoading()"
+      />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card
+        icon="bi-bar-chart-line"
+        label="Average / Expense"
+        prefix="$"
+        [value]="insights()?.average_expense ?? 0"
+        [loading]="isLoading()"
+      />
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <app-stat-card
+        icon="bi-receipt"
+        label="Total Expenses"
+        [decimals]="0"
+        [value]="insights()?.total_count ?? 0"
+        [loading]="isLoading()"
+      />
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <div class="card insight-card h-100">
+        <div class="card-body">
+          <h2 class="h6 mb-3">Spending by Category</h2>
+
+          @if (isLoading()) {
+            <div class="d-grid gap-3">
+              @for (row of [1, 2, 3]; track row) {
+                <app-skeleton height="1.75rem" radius="0.5rem" />
+              }
+            </div>
+          } @else if (topCategories().length === 0) {
+            <p class="text-muted mb-0">No expenses recorded yet.</p>
+          } @else {
+            <div class="d-grid gap-3">
+              @for (category of topCategories(); track category.category) {
+                <div class="category-row">
+                  <div class="d-flex align-items-center justify-content-between mb-1">
+                    <span class="category-label">
+                      <i class="bi" [ngClass]="getCategoryIcon(category.category)" aria-hidden="true"></i>
+                      {{ category.category }}
+                    </span>
+                    <span class="category-amount">{{ category.amount | currency }}</span>
+                  </div>
+                  <div class="progress category-progress">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      [style.width.%]="category.percentage"
+                    ></div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card insight-card h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h2 class="h6 mb-0">Recent Expenses</h2>
+            <a routerLink="/expenses" class="view-all-link">View all</a>
+          </div>
+
+          @if (isLoading()) {
+            <div class="d-grid gap-3">
+              @for (row of [1, 2, 3]; track row) {
+                <app-skeleton height="3.25rem" radius="0.85rem" />
+              }
+            </div>
+          } @else if (recentExpenses().length === 0) {
+            <p class="text-muted mb-0">No expenses yet. Add your first one to get started.</p>
+          } @else {
+            <div class="d-grid gap-1">
+              @for (expense of recentExpenses(); track expense.id) {
+                <app-expense-list-item [expense]="expense" [viewOnly]="true" />
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
