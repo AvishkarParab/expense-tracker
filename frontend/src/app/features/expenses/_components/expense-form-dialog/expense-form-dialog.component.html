@@ -13,16 +13,11 @@
     aria-modal="true"
     [attr.aria-label]="isEditMode() ? 'Edit expense' : 'Add expense'"
   >
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title h5 mb-0">{{ isEditMode() ? 'Edit Expense' : 'Add Expense' }}</h2>
-          <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            (click)="dismiss()"
-          ></button>
+          <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
         </div>
 
         <div class="modal-body">
@@ -69,11 +64,7 @@
 
             <div class="expense-field">
               <label for="expense-category">Category</label>
-              <select
-                id="expense-category"
-                class="form-select"
-                [formField]="expenseForm.category"
-              >
+              <select id="expense-category" class="form-select" [formField]="expenseForm.category">
                 <option value="" disabled>Select a category</option>
                 @for (category of categories; track category.value) {
                   <option [value]="category.value">{{ category.label }}</option>
@@ -91,25 +82,26 @@
                 [formField]="expenseForm.notes"
               ></textarea>
             </div>
-
-            <div class="modal-footer border-0 px-0 pb-0">
-              <button type="button" class="btn btn-outline-secondary" (click)="dismiss()">
-                Cancel
-              </button>
-              <button
-                class="btn btn-primary button-shine-hover"
-                type="submit"
-                [disabled]="expenseForm().invalid() || isSubmitting()"
-              >
-                @if (isSubmitting()) {
-                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-                  Saving...
-                } @else {
-                  {{ isEditMode() ? 'Save Changes' : 'Add Expense' }}
-                }
-              </button>
-            </div>
           </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="modal-button modal-button-secondary" (click)="dismiss()">
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="modal-button modal-button-primary button-shine-hover"
+            [disabled]="expenseForm().invalid() || isSubmitting()"
+          >
+            @if (isSubmitting()) {
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              Saving...
+            } @else {
+              {{ isEditMode() ? 'Save Changes' : 'Add Expense' }}
+            }
+          </button>
         </div>
       </div>
     </div>

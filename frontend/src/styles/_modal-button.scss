@@ -1,0 +1,45 @@
+.modal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 200ms ease;
+  border: 2px solid transparent;
+  outline: none;
+  height: 2.75rem;
+  width: 8.5rem;
+  padding: 0;
+}
+
+.modal-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.modal-button-primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast, #fff);
+  border-color: var(--color-primary);
+}
+
+.modal-button-primary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--color-primary) 85%, black);
+  border-color: color-mix(in srgb, var(--color-primary) 85%, black);
+  transform: translateY(-1px);
+}
+
+.modal-button-secondary {
+  background-color: transparent;
+  color: var(--color-text-muted, #6c757d);
+  border-color: var(--color-border);
+}
+
+.modal-button-secondary:hover:not(:disabled) {
+  background-color: var(--color-surface-muted, #f8f9fa);
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
