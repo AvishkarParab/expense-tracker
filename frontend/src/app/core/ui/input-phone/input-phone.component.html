@@ -1,0 +1,31 @@
+<div class="input-field" [class.floating]="floatingLabel()" [ngClass]="'size-' + size()">
+  @if (label() && !floatingLabel()) {
+    <label [for]="id()">{{ label() }}</label>
+  }
+
+  <div class="input-control">
+    @if (iconClass(); as icon) {
+      <span class="input-icon" [ngClass]="icon" aria-hidden="true"></span>
+    }
+
+    <input
+      [id]="id()"
+      type="tel"
+      autocomplete="tel"
+      [placeholder]="floatingLabel() ? placeholder() || ' ' : placeholder()"
+      [formField]="field()"
+      [attr.aria-label]="label() || name()"
+      [attr.aria-invalid]="validationMessage ? 'true' : null"
+      [attr.aria-describedby]="validationMessage ? id() + '-error' : null"
+      (input)="enforceMaxLength($event)"
+    />
+
+    @if (label() && floatingLabel()) {
+      <label class="floating-label" [for]="id()">{{ label() }}</label>
+    }
+  </div>
+
+  @if (validationMessage; as message) {
+    <p class="validation-message" [id]="id() + '-error'">{{ message }}</p>
+  }
+</div>
