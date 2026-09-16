@@ -81,11 +81,7 @@
                 <div class="category-row">
                   <div class="d-flex align-items-center justify-content-between mb-1">
                     <span class="category-label">
-                      <i
-                        class="bi"
-                        [ngClass]="getCategoryIcon(category.category)"
-                        aria-hidden="true"
-                      ></i>
+                      <i class="bi" [ngClass]="'bi bi-tag'" aria-hidden="true"></i>
                       {{ category.category }}
                     </span>
                     <span class="category-amount">{{ category.amount | currency }}</span>

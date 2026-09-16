@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { RouterLink } from '@angular/router';
 
 import { EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
-import { getCategoryIcon } from '@core/_utilities/expense-categories';
 import { LoaderService } from '@core/services';
 import { CategoryInsightDto, ExpenseInsightsDto, ExpenseResponseDto } from '@core/models';
 import { ExpenseListItemComponent, SkeletonComponent, StatCardComponent } from '@core/ui';
@@ -35,7 +41,6 @@ export class DashboardComponent implements OnInit {
   protected readonly recentExpenses = signal<ExpenseResponseDto[]>([]);
   protected readonly errorMessage = signal<string | null>(null);
   protected readonly isLoading = computed(() => this.loaderService.isLoading('dashboard-insights'));
-  protected readonly getCategoryIcon = getCategoryIcon;
 
   protected readonly topCategories = computed<CategoryInsightDto[]>(() =>
     (this.insights()?.category_breakdown ?? []).slice(0, 5),
