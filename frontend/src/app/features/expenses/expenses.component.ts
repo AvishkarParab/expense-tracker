@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-
-import { EXPENSE_CATEGORIES } from '@core/_utilities/expense-categories';
-import { EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
+import { EXPENSE_MESSAGES, RESULT_KINDS, EXPENSE_CATEGORIES } from '@core/_utilities/constants';
 import { LoaderService } from '@core/services';
 import { ExpenseResponseDto } from '@core/models';
 import { ExpenseListItemComponent, SkeletonComponent } from '@core/ui';

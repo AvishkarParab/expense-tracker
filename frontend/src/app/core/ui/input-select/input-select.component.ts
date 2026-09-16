@@ -1,26 +1,29 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Field, FormField } from '@angular/forms/signals';
+import { ITextValue } from '@core/models';
 
 @Component({
-  selector: 'app-input-date',
+  selector: 'app-input-select',
   standalone: true,
-  imports: [FormField, NgClass],
-  templateUrl: './input-date.component.html',
-  styleUrl: './input-date.component.scss',
+  imports: [FormField, NgClass, ReactiveFormsModule],
+  templateUrl: './input-select.component.html',
+  styleUrl: './input-select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputDateComponent {
+export class InputSelectComponent {
   readonly id = input.required<string>();
   readonly name = input.required<string>();
-  readonly field = input.required<Field<string | null>>();
+  readonly field = input.required<Field<string | ITextValue>>();
+  readonly options = input.required<ITextValue[]>();
 
+  readonly bind = input<'value' | 'object'>('object');
   readonly label = input<string>('');
+  readonly placeholder = input<string>('Select an option');
   readonly iconClass = input<string>('');
   readonly floatingLabel = input<boolean>(false);
   readonly size = input<'sm' | 'md' | 'lg' | 'xl'>('md');
-  readonly min = input<string | null>(null);
-  readonly max = input<string | null>(null);
 
   protected get validationMessage(): string | null {
     const field = this.field();
@@ -35,6 +38,6 @@ export class InputDateComponent {
 
     return error?.kind === 'required'
       ? `${this.label() || 'This field'} is required.`
-      : 'Select a valid date.';
+      : 'Select a valid option.';
   }
 }

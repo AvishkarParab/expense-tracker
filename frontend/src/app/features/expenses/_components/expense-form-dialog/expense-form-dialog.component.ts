@@ -10,8 +10,7 @@ import {
 } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
-import { EXPENSE_CATEGORIES } from '@core/_utilities/expense-categories';
-import { EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
+import { EXPENSE_CATEGORIES, EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
 import { LoaderService } from '@core/services';
 import { ExpenseResponseDto, ExpenseCreateDto } from '@core/models';
 import {
@@ -19,6 +18,7 @@ import {
   InputNumberComponent,
   InputTextComponent,
   InputDateComponent,
+  InputSelectComponent,
 } from '@core/ui';
 import { ExpensesService } from '../../expenses.service';
 import { createExpenseFormInitialState, expenseFormSchema, ExpenseFormModel } from '../../_models';
@@ -33,6 +33,7 @@ import { createExpenseFormInitialState, expenseFormSchema, ExpenseFormModel } fr
     InputTextComponent,
     InputNumberComponent,
     InputDateComponent,
+    InputSelectComponent,
   ],
   templateUrl: './expense-form-dialog.component.html',
   styleUrl: './expense-form-dialog.component.scss',

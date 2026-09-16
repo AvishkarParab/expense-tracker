@@ -5,7 +5,11 @@
       <h1 class="page-title mb-0">Expenses</h1>
     </div>
 
-    <button type="button" class="btn btn-primary button-shine-hover d-inline-flex align-items-center gap-2" (click)="openAddDialog()">
+    <button
+      type="button"
+      class="btn btn-primary button-shine-hover d-inline-flex align-items-center gap-2"
+      (click)="openAddDialog()"
+    >
       <i class="bi bi-plus-lg" aria-hidden="true"></i>
       <span>Add Expense</span>
     </button>
@@ -16,7 +20,7 @@
       <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
         <h2 class="h6 mb-0">All expenses</h2>
 
-        <select
+        <!-- <select
           class="form-select form-select-sm category-filter"
           [value]="selectedCategory()"
           (change)="onCategoryChange($any($event.target).value)"
@@ -25,7 +29,7 @@
           @for (category of categories; track category.value) {
             <option [value]="category.value">{{ category.label }}</option>
           }
-        </select>
+        </select> -->
       </div>
 
       @if (errorMessage()) {

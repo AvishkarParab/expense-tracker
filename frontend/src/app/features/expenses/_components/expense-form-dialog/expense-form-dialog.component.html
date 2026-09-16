@@ -62,13 +62,15 @@
             </div>
 
             <div class="expense-field">
-              <label for="expense-category">Category</label>
-              <select id="expense-category" class="form-select" [formField]="expenseForm.category">
-                <option value="" disabled>Select a category</option>
-                @for (category of categories; track category.value) {
-                  <option [value]="category.value">{{ category.label }}</option>
-                }
-              </select>
+              <app-input-select
+                [id]="'expense-category'"
+                [name]="'category'"
+                [label]="'Category'"
+                [placeholder]="'Select a category'"
+                [options]="categories"
+                [bind]="'value'"
+                [field]="expenseForm.category"
+              />
             </div>
 
             <div class="expense-field">
