@@ -14,14 +14,26 @@ import { EXPENSE_CATEGORIES } from '@core/_utilities/expense-categories';
 import { EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
 import { LoaderService } from '@core/services';
 import { ExpenseResponseDto, ExpenseCreateDto } from '@core/models';
-import { FormErrorsComponent, InputNumberComponent, InputTextComponent } from '@core/ui';
+import {
+  FormErrorsComponent,
+  InputNumberComponent,
+  InputTextComponent,
+  InputDateComponent,
+} from '@core/ui';
 import { ExpensesService } from '../../expenses.service';
 import { createExpenseFormInitialState, expenseFormSchema, ExpenseFormModel } from '../../_models';
 
 @Component({
   selector: 'app-expense-form-dialog',
   standalone: true,
-  imports: [FormErrorsComponent, FormField, FormRoot, InputTextComponent, InputNumberComponent],
+  imports: [
+    FormErrorsComponent,
+    FormField,
+    FormRoot,
+    InputTextComponent,
+    InputNumberComponent,
+    InputDateComponent,
+  ],
   templateUrl: './expense-form-dialog.component.html',
   styleUrl: './expense-form-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

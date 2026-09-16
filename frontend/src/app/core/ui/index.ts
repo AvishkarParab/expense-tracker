@@ -3,6 +3,7 @@ export * from './form-errors';
 export * from './input-text';
 export * from './input-number';
 export * from './input-phone';
+export * from './input-date';
 export * from './page-loader';
 export * from './skeleton';
 export * from './stat-card';
