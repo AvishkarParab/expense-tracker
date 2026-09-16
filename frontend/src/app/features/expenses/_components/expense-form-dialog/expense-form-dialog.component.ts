@@ -1,15 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { FormField, FormRoot, form } from '@angular/forms/signals';
+import { FormRoot, form } from '@angular/forms/signals';
 import { EXPENSE_CATEGORIES, EXPENSE_MESSAGES, RESULT_KINDS } from '@core/_utilities/constants';
 import { LoaderService } from '@core/services';
 import { ExpenseResponseDto, ExpenseCreateDto } from '@core/models';
@@ -19,6 +10,7 @@ import {
   InputTextComponent,
   InputDateComponent,
   InputSelectComponent,
+  InputTextareaComponent,
 } from '@core/ui';
 import { ExpensesService } from '../../expenses.service';
 import { createExpenseFormInitialState, expenseFormSchema, ExpenseFormModel } from '../../_models';
@@ -28,16 +20,15 @@ import { createExpenseFormInitialState, expenseFormSchema, ExpenseFormModel } fr
   standalone: true,
   imports: [
     FormErrorsComponent,
-    FormField,
     FormRoot,
     InputTextComponent,
     InputNumberComponent,
     InputDateComponent,
     InputSelectComponent,
+    InputTextareaComponent,
   ],
   templateUrl: './expense-form-dialog.component.html',
   styleUrl: './expense-form-dialog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpenseFormDialogComponent {
   private readonly expensesService = inject(ExpensesService);
@@ -85,6 +76,7 @@ export class ExpenseFormDialogComponent {
   }
 
   protected dismiss(): void {
+    this.expenseForm().reset();
     this.closed.emit();
   }
 

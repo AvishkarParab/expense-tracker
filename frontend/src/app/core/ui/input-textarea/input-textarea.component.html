@@ -1,0 +1,35 @@
+<div class="input-field" [class.floating]="floatingLabel()">
+  @if (label() && !floatingLabel()) {
+    <label [for]="id()">{{ label() }}</label>
+  }
+
+  <div class="input-control">
+    <textarea
+      [id]="id()"
+      [formField]="field()"
+      [rows]="rows()"
+      [placeholder]="floatingLabel() ? placeholder() || ' ' : placeholder()"
+      [attr.aria-label]="label() || name()"
+      [attr.aria-invalid]="validationMessage ? 'true' : null"
+      [attr.aria-describedby]="id() + '-hint'"
+      (input)="enforceMaxLength($event)"
+    ></textarea>
+
+    @if (label() && floatingLabel()) {
+      <label class="floating-label" [for]="id()">{{ label() }}</label>
+    }
+  </div>
+
+  <!-- Footer holds both validation and the character counter -->
+  <div class="footer-container" [id]="id() + '-hint'">
+    <div class="validation-wrapper">
+      @if (validationMessage; as message) {
+        <p class="validation-message">{{ message }}</p>
+      }
+    </div>
+
+    <div class="character-count" [class.danger]="remainingCharacters() === 0">
+      {{ remainingCharacters() }} characters remaining
+    </div>
+  </div>
+</div>

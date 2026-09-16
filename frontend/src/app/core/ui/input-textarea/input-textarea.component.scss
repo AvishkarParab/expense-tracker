@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.input-field {
+  display: grid;
+  gap: 0.55rem;
+  width: 100%;
+
+  --input-padding: 0.75rem 0.8rem;
+  --font-size: 0.875rem;
+  --label-left: 0.8rem;
+}
+
+label {
+  color: var(--color-text);
+  font-size: var(--font-size);
+  font-weight: 600;
+}
+
+.input-control {
+  position: relative;
+  display: flex;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 0.55rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition:
+    border-color 500ms ease,
+    box-shadow 500ms ease;
+}
+
+.input-control:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+  border-color: var(--color-primary);
+}
+
+textarea {
+  width: 100%;
+  padding: var(--input-padding);
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+  background: transparent;
+  color: var(--color-text);
+  font-size: var(--font-size);
+  font-family: inherit;
+  resize: vertical; /* Allow vertical resizing, block horizontal */
+  min-height: 4rem; /* Ensure it never shrinks too small */
+}
+
+textarea[aria-invalid='true'] {
+  border-color: transparent;
+}
+
+.input-control:has(textarea[aria-invalid='true']) {
+  border-color: var(--color-danger);
+}
+
+.floating-label {
+  position: absolute;
+  top: 0.85rem; /* Set to match top padding */
+  left: var(--label-left);
+  transform-origin: left top;
+  padding: 0 0.35rem;
+  border-radius: 0.2rem;
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size);
+  font-weight: 500;
+  line-height: 1;
+  pointer-events: none;
+  transition:
+    top 500ms ease,
+    transform 500ms ease,
+    color 500ms ease,
+    font-weight 500ms ease;
+}
+
+/* Float label up if focused or has text */
+textarea:focus ~ .floating-label,
+textarea:not(:placeholder-shown) ~ .floating-label {
+  top: -0.5rem;
+  transform: scale(0.82);
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+textarea:focus ~ .floating-label {
+  color: var(--color-primary);
+}
+
+.input-control:has(textarea[aria-invalid='true']):focus-within .floating-label {
+  color: var(--color-danger);
+}
+
+/* Footer layout for validation and character count */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  min-height: 1.2rem; /* Prevents layout shifting when errors appear */
+}
+
+.validation-message {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 0.8rem;
+}
+
+.character-count {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  transition: color 300ms ease;
+
+  /* Turns red when user runs out of space */
+  &.danger {
+    color: var(--color-danger);
+    font-weight: 600;
+  }
+}

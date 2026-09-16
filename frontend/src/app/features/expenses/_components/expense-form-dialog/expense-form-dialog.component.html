@@ -74,14 +74,15 @@
             </div>
 
             <div class="expense-field">
-              <label for="expense-notes">Notes <span class="text-muted">(optional)</span></label>
-              <textarea
-                id="expense-notes"
-                class="form-control"
-                rows="2"
-                placeholder="Add any extra details..."
-                [formField]="expenseForm.notes"
-              ></textarea>
+              <app-input-textarea
+                [id]="'expense-notes'"
+                [name]="'notes'"
+                [label]="'Additional Notes'"
+                [placeholder]="'Enter details here...'"
+                [rows]="5"
+                [maxLength]="300"
+                [field]="expenseForm.notes"
+              />
             </div>
           </form>
         </div>

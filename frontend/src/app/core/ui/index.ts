@@ -5,6 +5,7 @@ export * from './input-number';
 export * from './input-phone';
 export * from './input-date';
 export * from './input-select';
+export * from './input-textarea';
 export * from './page-loader';
 export * from './skeleton';
 export * from './stat-card';

@@ -16,7 +16,11 @@
       [attr.aria-describedby]="validationMessage ? id() + '-error' : null"
     >
       @if (placeholder()) {
-        <option [ngValue]="null" disabled hidden>{{ placeholder() }}</option>
+        @if (bind() === 'value') {
+          <option value="" disabled selected hidden>{{ placeholder() }}</option>
+        } @else {
+          <option [ngValue]="null" disabled selected hidden>{{ placeholder() }}</option>
+        }
       }
 
       <!-- Loop through your ITextValue options -->
